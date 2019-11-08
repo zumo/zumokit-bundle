@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ This file is part of the blockstar/zumokit-bundle package.
+  ~
+  ~ (c) DLabs / Blockstar 2019
+  ~ Author Vladimir Strackovski <vladimir.strackovski@dlabs.si>
+  ~
+  ~ For the full copyright and license information, please view the LICENSE
+  ~ file that was distributed with this source code.
+  -->
+
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                  http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <mapped-superclass name="Blockstar\ZumokitBundle\Model\Wallet">
+    <field name="name" column="name" length="255" nullable="true"/>
+    <field name="address" column="address" length="255" unique="true"/>
+    <field name="disabled" column="disabled" type="integer" nullable="true">
+      <options>
+        <option name="default">0</option>
+      </options>
+    </field>
+    <field name="lastTransactionTs" column="last_transaction_ts" type="datetime" nullable="true"/>
+    <field name="lastSyncTs" column="last_sync_ts" type="datetime" nullable="true"/>
+    <one-to-one field="user" target-entity="User" inversed-by="wallet" />
+  </mapped-superclass>
+</doctrine-mapping>

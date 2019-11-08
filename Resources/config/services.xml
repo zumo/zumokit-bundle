@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  ~ This file is part of the blockstar/zumokit-bundle package.
+  ~
+  ~ (c) DLabs / Blockstar 2019
+  ~ Author Vladimir Strackovski <vladimir.strackovski@dlabs.si>
+  ~
+  ~ For the full copyright and license information, please view the LICENSE
+  ~ file that was distributed with this source code.
+  -->
+
+<container xmlns="http://symfony.com/schema/dic/services"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://symfony.com/schema/dic/services
+        http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+  <services>
+    <defaults public="false"/>
+    <!-- HTTP API: SAPI Request & Client -->
+    <service id="blockstar_zumokit.request_factory" class="Blockstar\ZumokitBundle\Model\ZumoKitApp" public="true">
+      <argument type="service" id="blockstar_zumokit.app"/>
+    </service>
+
+    <service id="blockstar_zumokit.sapi_client" class="Blockstar\ZumokitBundle\Service\Client\SapiClient" public="true">
+      <argument>%blockstar_zumokit.api_url%</argument>
+      <argument type="service" id="blockstar_zumokit.client_credentials"/>
+      <argument type="service" id="blockstar_zumokit.app_credentials"/>
+      <argument type="service" id="monolog.logger"/>
+      <tag name="monolog.logger" channel="bundle.sapi"/>
+    </service>
+
+    <!-- REQUEST: Validator -->
+    <service id="blockstar_zumokit.request_validator" class="Blockstar\ZumokitBundle\Service\Request\Validator\RequestValidator" public="true">
+      <argument>%blockstar_zumokit.security.jwt.public_key%</argument>
+      <argument type="service" id="blockstar_zumokit.app"/>
+    </service>
+
+    <!-- TOKEN: Encoder -->
+    <service id="blockstar_zumokit.jwt_encoder" class="Blockstar\ZumokitBundle\Security\Token\JWTEncoder" public="true">
+      <argument>%blockstar_zumokit.security.jwt.private_key%</argument>
+      <argument>%blockstar_zumokit.security.jwt.passphrase%</argument>
+      <argument type="service" id="blockstar_zumokit.app"/>
+      <argument type="service" id="monolog.logger"/>
+      <tag name="monolog.logger" channel="bundle.encoder"/>
+    </service>
+
+    <!-- TOKEN: Decoder -->
+    <service id="blockstar_zumokit.jwt_decoder" class="Blockstar\ZumokitBundle\Service\Token\JWTDecoder" public="true">
+      <argument>%blockstar_zumokit.security.jwt.public_key%</argument>
+      <argument>%blockstar_zumokit.security.jwt.private_key%</argument>
+      <argument>%blockstar_zumokit.security.jwt.passphrase%</argument>
+      <argument type="service" id="blockstar_zumokit.app"/>
+      <argument type="service" id="monolog.logger"/>
+      <tag name="monolog.logger" channel="bundle.decoder"/>
+    </service>
+
+    <!-- The app service is an instance of ZumoApp type and serves as a
+        parameter container to other services in this bundle. -->
+    <service id="blockstar_zumokit.app" class="Blockstar\ZumokitBundle\Model\ZumoApp" public="true">
+      <argument>%blockstar_zumokit.app_id%</argument>
+      <argument>%blockstar_zumokit.app_name%</argument>
+      <argument>%blockstar_zumokit.api_key%</argument>
+      <argument>%blockstar_zumokit.api_url%</argument>
+      <argument>%blockstar_zumokit.domains%</argument>
+      <argument>%blockstar_zumokit.primary_domain%</argument>
+      <argument>%blockstar_zumokit.security.repository_class%</argument>
+      <argument>%blockstar_zumokit.security.user_class%</argument>
+    </service>
+
+    <!-- App & User credentials -->
+    <service id="blockstar_zumokit.app_credentials" class="Blockstar\ZumokitBundle\Model\AppCredentials" public="false">
+      <argument>%blockstar_zumokit.app_id%</argument>
+      <argument>%blockstar_zumokit.api_key%</argument>
+    </service>
+
+    <service id="blockstar_zumokit.client_credentials" class="Blockstar\ZumokitBundle\Model\ClientCredentials" public="false">
+    </service>
+
+    <!--Event handlers -->
+    <service id="blockstar_zumokit.login_subscriber" class="Blockstar\ZumokitBundle\EventSubscriber\LoginSubscriber">
+      <argument type="service" id="blockstar_zumokit.login_success_handler"/>
+      <argument type="service" id="monolog.logger"/>
+      <tag name="monolog.logger" channel="bundle.event"/>
+      <tag name="kernel.event_listener" event="lexik_jwt_authentication.on_jwt_created" method="dispatchJwtHandler"/>
+    </service>
+
+    <service id="blockstar_zumokit.login_success_handler" class="Blockstar\ZumokitBundle\Service\EventHandler\LoginSuccessHandler">
+      <argument type="service" id="blockstar_zumokit.sapi_client"/>
+      <argument type="service" id="blockstar_zumokit.app"/>
+      <argument type="service" id="blockstar_zumokit.jwt_encoder"/>
+      <argument type="service" id="monolog.logger"/>
+      <tag name="monolog.logger" channel="bundle.handler"/>
+    </service>
+
+    <!-- Controllers -->
+    <service id="blockstar_zumokit.auth.controller" class="Blockstar\ZumokitBundle\Controller\AuthController" public="true">
+      <argument type="service" id="blockstar_zumokit.app"/>
+      <argument type="service" id="blockstar_zumokit.sapi_client"/>
+      <argument type="service" id="blockstar_zumokit.jwt_encoder"/>
+      <argument type="service" id="blockstar_zumokit.request_validator"/>
+      <argument type="service" id="monolog.logger"/>
+      <argument type="service" id="App\Repository\UserRepository"/>
+      <tag name="monolog.logger" channel="bundle.api"/>
+    </service>
+
+    <service id="blockstar_zumokit.health.controller" class="Blockstar\ZumokitBundle\Controller\HealthController" public="true">
+      <argument type="service" id="blockstar_zumokit.app"/>
+      <argument type="service" id="blockstar_zumokit.sapi_client"/>
+      <argument type="service" id="monolog.logger"/>
+      <tag name="monolog.logger" channel="bundle.api"/>
+    </service>
+  </services>
+</container>

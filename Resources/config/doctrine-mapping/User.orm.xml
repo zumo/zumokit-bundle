@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ This file is part of the blockstar/zumokit-bundle package.
+  ~
+  ~ (c) DLabs / Blockstar 2019
+  ~ Author Vladimir Strackovski <vladimir.strackovski@dlabs.si>
+  ~
+  ~ For the full copyright and license information, please view the LICENSE
+  ~ file that was distributed with this source code.
+  -->
+
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                  http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <mapped-superclass name="Blockstar\ZumokitBundle\Model\User">
+    <field name="email" column="name" length="255" nullable="false" unique="true"/>
+    <field name="disabled" column="disabled" type="boolean"/>
+    <field name="consented" column="consented" type="boolean"/>
+    <field name="firstSyncTs" column="first_sync_ts" type="datetime" nullable="true"/>
+    <field name="lastSyncTs" column="last_sync_ts" type="datetime" nullable="true"/>
+    <one-to-one field="wallet" target-entity="Blockstar\ZumokitBundle\Model\Wallet" mapped-by="user" />
+  </mapped-superclass>
+</doctrine-mapping>

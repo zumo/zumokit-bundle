@@ -1,0 +1,62 @@
+<?php
+
+/**
+ * This file is part of the blockstar/zumokit-bundle package.
+ *
+ * (c) DLabs / Blockstar 2019
+ * Author Vladimir Strackovski <vladimir.strackovski@dlabs.si>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+namespace Blockstar\ZumokitBundle\Security\Token\Builder;
+
+use Blockstar\ZumokitBundle\Security\Claim\BaseClaim;
+use Lcobucci\JWT;
+
+/**
+ * Class TokenBuilder
+ *
+ * @package Blockstar\ZumokitBundle\Security\Token\Builder
+ * @author  Vladimir Strackovski <vladimir.strackovski@dlabs.si>
+ */
+class TokenBuilder
+{
+    /**
+     * @var \Blockstar\ZumokitBundle\Security\Token\JWTEncoder
+     */
+    private $encoder;
+
+    /**
+     * @var ClaimBuilder
+     */
+    private $claimBuilder;
+
+    /**
+     * TokenBuilder constructor.
+     *
+     * @param \Blockstar\ZumokitBundle\Security\Token\JWTEncoder $encoder
+     * @param ClaimBuilder                                       $builder
+     */
+    public function __construct(
+        \Blockstar\ZumokitBundle\Security\Token\JWTEncoder $encoder,
+        ClaimBuilder $builder
+    ) {
+        $this->encoder      = $encoder;
+        $this->claimBuilder = $builder;
+    }
+
+    /**
+     * @param                                                         $user
+     *
+     * @param \Blockstar\ZumokitBundle\Security\Claim\BaseClaim       $claims
+     *
+     * @return \Lcobucci\JWT\Token
+     * @throws \Exception
+     */
+    public function build($user, BaseClaim $claims): JWT\Token
+    {
+        return $this->encoder->encode($user, $this->claimBuilder->build($claims));
+    }
+}

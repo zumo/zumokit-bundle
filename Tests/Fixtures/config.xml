@@ -1,0 +1,14 @@
+<!--
+  ~ This file is part of the blockstar/zumokit-bundle package.
+  ~
+  ~ (c) DLabs / Blockstar 2019
+  ~ Author Vladimir Strackovski <vladimir.strackovski@dlabs.si>
+  ~
+  ~ For the full copyright and license information, please view the LICENSE
+  ~ file that was distributed with this source code.
+  -->
+<!-- in Fixtures/config.xml -->
+
+<blockstar_zumokit:user_registration>
+  <blockstar_zumokit:extension>user_registration</blockstar_zumokit:extension>
+</blockstar_zumokit:user_registration>
