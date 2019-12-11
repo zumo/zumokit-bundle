@@ -1,18 +1,18 @@
 <?php
 
 /**
- * This file is part of the blockstar/zumokit-bundle package.
+ * This file is part of the zumo/zumokit-bundle package.
  *
- * (c) DLabs / Blockstar 2019
+ * (c) DLabs / Zumo 2019
  * Author Vladimir Strackovski <vladimir.strackovski@dlabs.si>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
-namespace Blockstar\ZumokitBundle\Security\Token\Builder;
+namespace Zumo\ZumokitBundle\Security\Token\Builder;
 
-use Blockstar\ZumokitBundle\Service\Request\Parameters\Header;
+use Zumo\ZumokitBundle\Service\Request\Parameters\Header;
 
 /**
  * Class Firewall stores authorization realms:
@@ -23,7 +23,7 @@ use Blockstar\ZumokitBundle\Service\Request\Parameters\Header;
  *   - /sdk  -> ZumoKit Native C++ SDK
  *   -/
  *
- * @package Blockstar\ZumokitBundle\Security\Token\Builder
+ * @package Zumo\ZumokitBundle\Security\Token\Builder
  * @author  Vladimir Strackovski <vladimir.strackovski@dlabs.si>
  */
 final class Firewall

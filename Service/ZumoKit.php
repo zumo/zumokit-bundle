@@ -1,21 +1,21 @@
 <?php
 
 /**
- * This file is part of the blockstar/zumokit-bundle package.
+ * This file is part of the zumo/zumokit-bundle package.
  *
- * (c) DLabs / Blockstar 2019
+ * (c) DLabs / Zumo 2019
  * Author Vladimir Strackovski <vladimir.strackovski@dlabs.si>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
-namespace Blockstar\ZumokitBundle\Service;
+namespace Zumo\ZumokitBundle\Service;
 
 /**
  * Class ZumoKit
  *
- * @package      Blockstar\ZumokitBundle\Service
+ * @package      Zumo\ZumokitBundle\Service
  * @author       Vladimir Strackovski <vladimir.strackovski@dlabs.si>
  * @copyright    2019 DLabs (https://www.dlabs.si)
  */
@@ -38,14 +38,14 @@ final class ZumoKit
     /**
      * The current app.
      *
-     * @var \Blockstar\ZumokitBundle\Model\ZumoApp
+     * @var \Zumo\ZumokitBundle\Model\ZumoApp
      */
     private $app;
 
     /**
      * The current user
      *
-     * @var \Blockstar\ZumokitBundle\Model\ZumoUser
+     * @var \Zumo\ZumokitBundle\Model\ZumoUser
      */
     private $user;
 }

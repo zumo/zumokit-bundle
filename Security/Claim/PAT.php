@@ -1,25 +1,25 @@
 <?php
 
 /**
- * This file is part of the blockstar/zumokit-bundle package.
+ * This file is part of the zumo/zumokit-bundle package.
  *
- * (c) DLabs / Blockstar 2019
+ * (c) DLabs / Zumo 2019
  * Author Vladimir Strackovski <vladimir.strackovski@dlabs.si>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
-namespace Blockstar\ZumokitBundle\Security\Claim;
+namespace Zumo\ZumokitBundle\Security\Claim;
 
-use Blockstar\ZumokitBundle\Model\UserInterface;
-use Blockstar\ZumokitBundle\Model\ZumoApp;
+use Zumo\ZumokitBundle\Model\UserInterface;
+use Zumo\ZumokitBundle\Model\ZumoApp;
 use Lcobucci\JWT;
 
 /**
  * Class PAT
  *
- * @package      Blockstar\ZumokitBundle\Security\Claim
+ * @package      Zumo\ZumokitBundle\Security\Claim
  * @author       Vladimir Strackovski <vladimir.strackovski@dlabs.si>
  * @copyright    2019 DLabs (https://www.dlabs.si)
  */

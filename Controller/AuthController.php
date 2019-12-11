@@ -1,27 +1,27 @@
 <?php
 
 /**
- * This file is part of the blockstar/zumokit-bundle package.
+ * This file is part of the zumo/zumokit-bundle package.
  *
- * (c) DLabs / Blockstar 2019
+ * (c) DLabs / Zumo 2019
  * Author Vladimir Strackovski <vladimir.strackovski@dlabs.si>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
-namespace Blockstar\ZumokitBundle\Controller;
+namespace Zumo\ZumokitBundle\Controller;
 
-use Blockstar\ZumokitBundle\Exception\AuthenticationRequestException;
-use Blockstar\ZumokitBundle\Model\Wallet;
-use Blockstar\ZumokitBundle\Model\ZumoApp;
-use Blockstar\ZumokitBundle\Security\Token\JWTEncoder;
-use Blockstar\ZumokitBundle\Service\Client\SapiClient;
-use Blockstar\ZumokitBundle\Service\Request\RequestFactory;
-use Blockstar\ZumokitBundle\Service\Request\SAPI\AccessTokenRequest;
-use Blockstar\ZumokitBundle\Service\Request\Validator\RequestValidator;
-use Blockstar\ZumokitBundle\Service\Wallet\Map;
-use Blockstar\ZumokitBundle\Service\Wallet\Sync;
+use Zumo\ZumokitBundle\Exception\AuthenticationRequestException;
+use Zumo\ZumokitBundle\Model\Wallet;
+use Zumo\ZumokitBundle\Model\ZumoApp;
+use Zumo\ZumokitBundle\Security\Token\JWTEncoder;
+use Zumo\ZumokitBundle\Service\Client\SapiClient;
+use Zumo\ZumokitBundle\Service\Request\RequestFactory;
+use Zumo\ZumokitBundle\Service\Request\SAPI\AccessTokenRequest;
+use Zumo\ZumokitBundle\Service\Request\Validator\RequestValidator;
+use Zumo\ZumokitBundle\Service\Wallet\Map;
+use Zumo\ZumokitBundle\Service\Wallet\Sync;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -31,7 +31,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 /**
  * Class AuthController
  *
- * @package      Blockstar\ZumokitBundle\Controller
+ * @package      Zumo\ZumokitBundle\Controller
  * @author       Vladimir Strackovski <vladimir.strackovski@dlabs.si>
  * @copyright    2018 DLabs (https://www.dlabs.si)
  */
@@ -45,17 +45,17 @@ class AuthController extends AbstractController
     protected $logger;
 
     /**
-     * @var \Blockstar\ZumokitBundle\Model\ZumoApp
+     * @var \Zumo\ZumokitBundle\Model\ZumoApp
      */
     private $app;
 
     /**
-     * @var \Blockstar\ZumokitBundle\Service\Client\SapiClient
+     * @var \Zumo\ZumokitBundle\Service\Client\SapiClient
      */
     private $sapi;
 
     /**
-     * @var \Blockstar\ZumokitBundle\Security\Token\JWTEncoder
+     * @var \Zumo\ZumokitBundle\Security\Token\JWTEncoder
      */
     private $tokenEncoder;
 
@@ -72,9 +72,9 @@ class AuthController extends AbstractController
     /**
      * AuthController constructor.
      *
-     * @param \Blockstar\ZumokitBundle\Model\ZumoApp             $app
-     * @param \Blockstar\ZumokitBundle\Service\Client\SapiClient $sapi
-     * @param \Blockstar\ZumokitBundle\Security\Token\JWTEncoder $encoder
+     * @param \Zumo\ZumokitBundle\Model\ZumoApp             $app
+     * @param \Zumo\ZumokitBundle\Service\Client\SapiClient $sapi
+     * @param \Zumo\ZumokitBundle\Security\Token\JWTEncoder $encoder
      * @param RequestValidator                                   $validator
      * @param \Psr\Log\LoggerInterface                           $logger
      * @param \App\Repository\UserRepository                     $repository

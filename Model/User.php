@@ -1,28 +1,28 @@
 <?php
 
 /**
- * This file is part of the blockstar/zumokit-bundle package.
+ * This file is part of the zumo/zumokit-bundle package.
  *
- * (c) DLabs / Blockstar 2019
+ * (c) DLabs / Zumo 2019
  * Author Vladimir Strackovski <vladimir.strackovski@dlabs.si>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
-namespace Blockstar\ZumokitBundle\Model;
+namespace Zumo\ZumokitBundle\Model;
 
 /**
  * User represents a model of a user account.
  *
- * @package      Blockstar\ZumokitBundle\Model
+ * @package      Zumo\ZumokitBundle\Model
  * @author       Vladimir Strackovski <vladimir.strackovski@dlabs.si>
  * @copyright    2018 DLabs (https://www.dlabs.si)
  */
 abstract class User implements UserInterface
 {
     /**
-     * @var \Blockstar\ZumokitBundle\Model\WalletInterface
+     * @var \Zumo\ZumokitBundle\Model\WalletInterface
      */
     protected $wallet;
 
@@ -68,7 +68,7 @@ abstract class User implements UserInterface
     }
 
     /**
-     * @return \Blockstar\ZumokitBundle\Model\WalletInterface|null
+     * @return \Zumo\ZumokitBundle\Model\WalletInterface|null
      */
     public function getWallet(): ?WalletInterface
     {
@@ -76,7 +76,7 @@ abstract class User implements UserInterface
     }
 
     /**
-     * @param \Blockstar\ZumokitBundle\Model\WalletInterface $wallet
+     * @param \Zumo\ZumokitBundle\Model\WalletInterface $wallet
      *
      * @return User
      */

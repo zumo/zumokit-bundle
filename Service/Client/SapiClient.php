@@ -1,23 +1,23 @@
 <?php
 
 /**
- * This file is part of the blockstar/zumokit-bundle package.
+ * This file is part of the zumo/zumokit-bundle package.
  *
- * (c) DLabs / Blockstar 2019
+ * (c) DLabs / Zumo 2019
  * Author Vladimir Strackovski <vladimir.strackovski@dlabs.si>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
-namespace Blockstar\ZumokitBundle\Service\Client;
+namespace Zumo\ZumokitBundle\Service\Client;
 
-use Blockstar\ZumokitBundle\Exception\ClientException;
-use Blockstar\ZumokitBundle\Exception\SapiResponseException;
-use Blockstar\ZumokitBundle\Service\Request\SAPI\AccountCheckRequest;
-use Blockstar\ZumokitBundle\Service\Request\SAPI\AccountPushRequest;
-use Blockstar\ZumokitBundle\Service\Request\SAPI\AccessTokenRequest;
-use Blockstar\ZumokitBundle\Service\Request\SAPI\SapiRequest;
+use Zumo\ZumokitBundle\Exception\ClientException;
+use Zumo\ZumokitBundle\Exception\SapiResponseException;
+use Zumo\ZumokitBundle\Service\Request\SAPI\AccountCheckRequest;
+use Zumo\ZumokitBundle\Service\Request\SAPI\AccountPushRequest;
+use Zumo\ZumokitBundle\Service\Request\SAPI\AccessTokenRequest;
+use Zumo\ZumokitBundle\Service\Request\SAPI\SapiRequest;
 use GuzzleHttp\Exception\ConnectException;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Exception\ServerException;
@@ -29,7 +29,7 @@ use function GuzzleHttp\Psr7\stream_for;
 /**
  * Class SapiClient dispatches requests to the ZumoKit SAPI endpoints, using
  *
- * @package Blockstar\ZumokitBundle\Service\Client
+ * @package Zumo\ZumokitBundle\Service\Client
  * @author  Vladimir Strackovski <vladimir.strackovski@dlabs.si>
  */
 class SapiClient
@@ -45,12 +45,12 @@ class SapiClient
     private $baseUri;
 
     /**
-     * @var \Blockstar\ZumokitBundle\Model\ClientCredentials
+     * @var \Zumo\ZumokitBundle\Model\ClientCredentials
      */
     private $clientCredentials;
 
     /**
-     * @var \Blockstar\ZumokitBundle\Model\AppCredentials
+     * @var \Zumo\ZumokitBundle\Model\AppCredentials
      */
     private $appCredentials;
 
@@ -68,14 +68,14 @@ class SapiClient
      * SapiClient constructor.
      *
      * @param string                                           $baseUri
-     * @param \Blockstar\ZumokitBundle\Model\ClientCredentials $clientCredentials
-     * @param \Blockstar\ZumokitBundle\Model\AppCredentials    $appCredentials
+     * @param \Zumo\ZumokitBundle\Model\ClientCredentials $clientCredentials
+     * @param \Zumo\ZumokitBundle\Model\AppCredentials    $appCredentials
      * @param \Psr\Log\LoggerInterface                         $logger
      */
     public function __construct(
         string $baseUri,
-        \Blockstar\ZumokitBundle\Model\ClientCredentials $clientCredentials,
-        \Blockstar\ZumokitBundle\Model\AppCredentials $appCredentials,
+        \Zumo\ZumokitBundle\Model\ClientCredentials $clientCredentials,
+        \Zumo\ZumokitBundle\Model\AppCredentials $appCredentials,
         \Psr\Log\LoggerInterface $logger
     ) {
         $this->baseUri = "https://" . $baseUri;
@@ -96,7 +96,7 @@ class SapiClient
      * @param null $accountId
      *
      * @return \Psr\Http\Message\ResponseInterface
-     * @throws \Blockstar\ZumokitBundle\Exception\SapiResponseException
+     * @throws \Zumo\ZumokitBundle\Exception\SapiResponseException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function getAccessToken($accountId = null): ResponseInterface
@@ -110,7 +110,7 @@ class SapiClient
      * @param null $accountId
      *
      * @return \Psr\Http\Message\ResponseInterface
-     * @throws \Blockstar\ZumokitBundle\Exception\SapiResponseException
+     * @throws \Zumo\ZumokitBundle\Exception\SapiResponseException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function checkAccount($accountId = null): ResponseInterface
@@ -124,7 +124,7 @@ class SapiClient
      * @param null $accountId
      *
      * @return \Psr\Http\Message\ResponseInterface
-     * @throws \Blockstar\ZumokitBundle\Exception\SapiResponseException
+     * @throws \Zumo\ZumokitBundle\Exception\SapiResponseException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function pushAccount($accountId = null): ResponseInterface
@@ -135,10 +135,10 @@ class SapiClient
     /**
      * Sends the request using the http client.
      *
-     * @param \Blockstar\ZumokitBundle\Service\Request\SAPI\SapiRequest
+     * @param \Zumo\ZumokitBundle\Service\Request\SAPI\SapiRequest
      *
      * @return \Psr\Http\Message\ResponseInterface
-     * @throws \Blockstar\ZumokitBundle\Exception\SapiResponseException
+     * @throws \Zumo\ZumokitBundle\Exception\SapiResponseException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function sendRequest(SapiRequest $request): ResponseInterface
@@ -174,7 +174,7 @@ class SapiClient
      * @param \Psr\Http\Message\ResponseInterface $response
      *
      * @return array
-     * @throws \Blockstar\ZumokitBundle\Exception\SapiResponseException
+     * @throws \Zumo\ZumokitBundle\Exception\SapiResponseException
      */
     private function decodeResponse(ResponseInterface $response): array
     {
@@ -310,17 +310,17 @@ class SapiClient
     }
 
     /**
-     * @return \Blockstar\ZumokitBundle\Model\ClientCredentials
+     * @return \Zumo\ZumokitBundle\Model\ClientCredentials
      */
-    public function getClientCredentials(): \Blockstar\ZumokitBundle\Model\ClientCredentials
+    public function getClientCredentials(): \Zumo\ZumokitBundle\Model\ClientCredentials
     {
         return $this->clientCredentials;
     }
 
     /**
-     * @return \Blockstar\ZumokitBundle\Model\AppCredentials
+     * @return \Zumo\ZumokitBundle\Model\AppCredentials
      */
-    public function getAppCredentials(): \Blockstar\ZumokitBundle\Model\AppCredentials
+    public function getAppCredentials(): \Zumo\ZumokitBundle\Model\AppCredentials
     {
         return $this->appCredentials;
     }

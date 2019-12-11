@@ -1,26 +1,26 @@
 <?php
 
 /**
- * This file is part of the blockstar/zumokit-bundle package.
+ * This file is part of the zumo/zumokit-bundle package.
  *
- * (c) DLabs / Blockstar 2019
+ * (c) DLabs / Zumo 2019
  * Author Vladimir Strackovski <vladimir.strackovski@dlabs.si>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
-namespace Blockstar\ZumokitBundle\Model;
+namespace Zumo\ZumokitBundle\Model;
 
-use Blockstar\ZumokitBundle\Service\Request\Parameters\Body;
-use Blockstar\ZumokitBundle\Service\Request\Parameters\Header;
-use Blockstar\ZumokitBundle\Service\Request\Parameters\Parameters;
+use Zumo\ZumokitBundle\Service\Request\Parameters\Body;
+use Zumo\ZumokitBundle\Service\Request\Parameters\Header;
+use Zumo\ZumokitBundle\Service\Request\Parameters\Parameters;
 
 /**
  * Class ZumoUser represents a model of a user account with
  * all properties required to authenticate to ZumoKit service.
  *
- * @package      Blockstar\ZumokitBundle\Model
+ * @package      Zumo\ZumokitBundle\Model
  * @author       Vladimir Strackovski <vladimir.strackovski@dlabs.si>
  * @copyright    2018 DLabs (https://www.dlabs.si)
  */
