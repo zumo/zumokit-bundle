@@ -1,24 +1,24 @@
 <?php
 
 /**
- * This file is part of the blockstar/zumokit-bundle package.
+ * This file is part of the zumo/zumokit-bundle package.
  *
- * (c) DLabs / Blockstar 2019
+ * (c) DLabs / Zumo 2019
  * Author Vladimir Strackovski <vladimir.strackovski@dlabs.si>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
-namespace Blockstar\ZumokitBundle\Service\EventHandler;
+namespace Zumo\ZumokitBundle\Service\EventHandler;
 
-use Blockstar\ZumokitBundle\Exception\LoginHandlerException;
-use Blockstar\ZumokitBundle\Model\UserInterface;
-use Blockstar\ZumokitBundle\Model\ZumoApp;
-use Blockstar\ZumokitBundle\Security\Token\JWTEncoder;
-use Blockstar\ZumokitBundle\Service\Client\SapiClient;
-use Blockstar\ZumokitBundle\Service\Request\RequestFactory;
-use Blockstar\ZumokitBundle\Service\Request\SAPI\AccountCheckRequest;
+use Zumo\ZumokitBundle\Exception\LoginHandlerException;
+use Zumo\ZumokitBundle\Model\UserInterface;
+use Zumo\ZumokitBundle\Model\ZumoApp;
+use Zumo\ZumokitBundle\Security\Token\JWTEncoder;
+use Zumo\ZumokitBundle\Service\Client\SapiClient;
+use Zumo\ZumokitBundle\Service\Request\RequestFactory;
+use Zumo\ZumokitBundle\Service\Request\SAPI\AccountCheckRequest;
 use Lexik\Bundle\JWTAuthenticationBundle\Event\JWTCreatedEvent;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Log\LoggerInterface;
@@ -33,24 +33,24 @@ use Symfony\Component\EventDispatcher\Event;
  * verification and upon success retrieves a pre-auth token,
  * which it signs and passes to the token storage service.
  *
- * @package      Blockstar\ZumokitBundle\Service\EventHandler
+ * @package      Zumo\ZumokitBundle\Service\EventHandler
  * @author       Vladimir Strackovski <vladimir.strackovski@dlabs.si>
  * @copyright    2018 DLabs (https://www.dlabs.si)
  */
 class LoginSuccessHandler
 {
     /**
-     * @var \Blockstar\ZumokitBundle\Service\Client\SapiClient
+     * @var \Zumo\ZumokitBundle\Service\Client\SapiClient
      */
     protected $client;
 
     /**
-     * @var \Blockstar\ZumokitBundle\Model\ZumoApp
+     * @var \Zumo\ZumokitBundle\Model\ZumoApp
      */
     protected $app;
 
     /**
-     * @var \Blockstar\ZumokitBundle\Security\Token\JWTEncoder
+     * @var \Zumo\ZumokitBundle\Security\Token\JWTEncoder
      */
     protected $encoder;
 
@@ -63,8 +63,8 @@ class LoginSuccessHandler
      * LoginSuccessHandler constructor.
      *
      * @param SapiClient                                         $client
-     * @param \Blockstar\ZumokitBundle\Model\ZumoApp             $app
-     * @param \Blockstar\ZumokitBundle\Security\Token\JWTEncoder $encoder
+     * @param \Zumo\ZumokitBundle\Model\ZumoApp             $app
+     * @param \Zumo\ZumokitBundle\Security\Token\JWTEncoder $encoder
      * @param \Psr\Log\LoggerInterface                           $logger
      */
     public function __construct(SapiClient $client, ZumoApp $app, JWTEncoder $encoder, LoggerInterface $logger)
@@ -82,7 +82,7 @@ class LoginSuccessHandler
      *              is dispatched on authentication success.
      *
      * @return null
-     * @throws \Blockstar\ZumokitBundle\Exception\LoginHandlerException
+     * @throws \Zumo\ZumokitBundle\Exception\LoginHandlerException
      */
     public function handle($event)
     {
@@ -108,7 +108,7 @@ class LoginSuccessHandler
      * @param \Lexik\Bundle\JWTAuthenticationBundle\Event\JWTCreatedEvent $event
      *
      * @return \Psr\Http\Message\ResponseInterface|null
-     * @throws \Blockstar\ZumokitBundle\Exception\LoginHandlerException
+     * @throws \Zumo\ZumokitBundle\Exception\LoginHandlerException
      */
     protected function handleAuthenticationSuccessEvent($event): ?ResponseInterface
     {

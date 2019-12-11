@@ -1,24 +1,24 @@
 <?php
 
 /**
- * This file is part of the blockstar/zumokit-bundle package.
+ * This file is part of the zumo/zumokit-bundle package.
  *
- * (c) DLabs / Blockstar 2019
+ * (c) DLabs / Zumo 2019
  * Author Vladimir Strackovski <vladimir.strackovski@dlabs.si>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
-namespace Blockstar\ZumokitBundle;
+namespace Zumo\ZumokitBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 /**
- * Class BlockstarZumokitBundle
+ * Class ZumokitBundle
  *
- * @package Blockstar\ZumokitBundle
+ * @package Zumo\ZumokitBundle
  * @author  Vladimir Strackovski <vladimir.strackovski@dlabs.si>
  */
-class BlockstarZumokitBundle extends Bundle
+class ZumokitBundle extends Bundle
 { }

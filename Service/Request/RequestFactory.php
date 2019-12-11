@@ -1,32 +1,32 @@
 <?php
 
 /**
- * This file is part of the blockstar/zumokit-bundle package.
+ * This file is part of the zumo/zumokit-bundle package.
  *
- * (c) DLabs / Blockstar 2019
+ * (c) DLabs / Zumo 2019
  * Author Vladimir Strackovski <vladimir.strackovski@dlabs.si>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
-namespace Blockstar\ZumokitBundle\Service\Request;
+namespace Zumo\ZumokitBundle\Service\Request;
 
-use Blockstar\ZumokitBundle\Model\ZumoApp;
-use Blockstar\ZumokitBundle\Service\Request\Parameters\Parameters;
-use Blockstar\ZumokitBundle\Service\Request\SAPI\SapiRequest;
+use Zumo\ZumokitBundle\Model\ZumoApp;
+use Zumo\ZumokitBundle\Service\Request\Parameters\Parameters;
+use Zumo\ZumokitBundle\Service\Request\SAPI\SapiRequest;
 use function GuzzleHttp\Psr7\stream_for;
 
 /**
  * Class RequestFactory
  *
- * @package Blockstar\ZumokitBundle\Service\Request\SAPI
+ * @package Zumo\ZumokitBundle\Service\Request\SAPI
  * @author  Vladimir Strackovski <vladimir.strackovski@dlabs.si>
  */
 class RequestFactory
 {
     /**
-     * @var \Blockstar\ZumokitBundle\Model\ZumoApp
+     * @var \Zumo\ZumokitBundle\Model\ZumoApp
      */
     private $app;
 
@@ -38,7 +38,7 @@ class RequestFactory
     /**
      * RequestFactory constructor.
      *
-     * @param \Blockstar\ZumokitBundle\Model\ZumoApp $app
+     * @param \Zumo\ZumokitBundle\Model\ZumoApp $app
      * @param null                                   $accountId
      */
     public function __construct(ZumoApp $app, $accountId = null)
@@ -50,7 +50,7 @@ class RequestFactory
     /**
      * @param string $className
      *
-     * @return \Blockstar\ZumokitBundle\Service\Request\SAPI\SapiRequest
+     * @return \Zumo\ZumokitBundle\Service\Request\SAPI\SapiRequest
      * @throws \Exception
      */
     public function create(string $className): SapiRequest
@@ -74,7 +74,7 @@ class RequestFactory
      *
      * @param SapiRequest $request A SapiRequest instance.
      *
-     * @return \Blockstar\ZumokitBundle\Service\Request\SAPI\SapiRequest|null
+     * @return \Zumo\ZumokitBundle\Service\Request\SAPI\SapiRequest|null
      */
     private function build(SapiRequest $request): ?SapiRequest
     {

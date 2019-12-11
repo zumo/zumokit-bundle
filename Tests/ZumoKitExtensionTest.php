@@ -1,25 +1,25 @@
 <?php
 
 /**
- * This file is part of the blockstar/zumokit-bundle package.
+ * This file is part of the zumo/zumokit-bundle package.
  *
- * (c) DLabs / Blockstar 2019
+ * (c) DLabs / Zumo 2019
  * Author Vladimir Strackovski <vladimir.strackovski@dlabs.si>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
-namespace Blockstar\ZumokitBundle\Test;
+namespace Zumo\ZumokitBundle\Test;
 
 use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractExtensionTestCase;
 
 /**
- * Class BlockstarZumoKitExtensionTest
+ * Class ZumoKitExtensionTest
  *
  * @author  Vladimir Strackovski <vladimir.strackovski@dlabs.si>
  */
-class BlockstarZumoKitExtensionTest extends AbstractExtensionTestCase
+class ZumoKitExtensionTest extends AbstractExtensionTestCase
 {
     /**
      * @return array|\Symfony\Component\DependencyInjection\Extension\ExtensionInterface[]
@@ -27,7 +27,7 @@ class BlockstarZumoKitExtensionTest extends AbstractExtensionTestCase
     protected function getContainerExtensions()
     {
         return [
-            new \Blockstar\ZumokitBundle\DependencyInjection\BlockstarZumokitExtension(),
+            new \Zumo\ZumokitBundle\DependencyInjection\ZumokitExtension(),
         ];
     }
 
