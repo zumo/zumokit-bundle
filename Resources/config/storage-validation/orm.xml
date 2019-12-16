@@ -1,8 +1,8 @@
 <?xml version="1.0" ?>
 <!--
-  ~ This file is part of the blockstar/zumokit-bundle package.
+  ~ This file is part of the zumo/zumokit-bundle package.
   ~
-  ~ (c) DLabs / Blockstar 2019
+  ~ (c) DLabs / Zumo 2019
   ~ Author Vladimir Strackovski <vladimir.strackovski@dlabs.si>
   ~
   ~ For the full copyright and license information, please view the LICENSE
@@ -13,7 +13,7 @@
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://symfony.com/schema/dic/constraint-mapping
         http://symfony.com/schema/dic/constraint-mapping/constraint-mapping-1.0.xsd">
 
-  <class name="Blockstar\ZumokitBundle\Model\Wallet">
+  <class name="Zumo\ZumokitBundle\Model\Wallet">
     <constraint name="Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity">
       <option name="fields">address</option>
       <option name="errorPath">address</option>

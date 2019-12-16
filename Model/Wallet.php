@@ -1,21 +1,21 @@
 <?php
 
 /**
- * This file is part of the blockstar/zumokit-bundle package.
+ * This file is part of the zumo/zumokit-bundle package.
  *
- * (c) DLabs / Blockstar 2019
+ * (c) DLabs / Zumo 2019
  * Author Vladimir Strackovski <vladimir.strackovski@dlabs.si>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
-namespace Blockstar\ZumokitBundle\Model;
+namespace Zumo\ZumokitBundle\Model;
 
 /**
  * Wallet represents a model of a wallet.
  *
- * @package      Blockstar\ZumokitBundle\Model
+ * @package      Zumo\ZumokitBundle\Model
  * @author       Vladimir Strackovski <vladimir.strackovski@dlabs.si>
  * @copyright    2018 DLabs (https://www.dlabs.si)
  */
@@ -50,7 +50,7 @@ class Wallet implements WalletInterface
     protected $lastSyncAt;
 
     /**
-     * @var \Blockstar\ZumokitBundle\Model\UserInterface
+     * @var \Zumo\ZumokitBundle\Model\UserInterface
      */
     protected $user;
 
@@ -58,7 +58,7 @@ class Wallet implements WalletInterface
      * Wallet constructor.
      *
      * @param string                                       $address
-     * @param \Blockstar\ZumokitBundle\Model\UserInterface $user
+     * @param \Zumo\ZumokitBundle\Model\UserInterface $user
      */
     public function __construct(string $address, UserInterface $user)
     {
@@ -75,7 +75,7 @@ class Wallet implements WalletInterface
     }
 
     /**
-     * @param \Blockstar\ZumokitBundle\Model\UserInterface $user
+     * @param \Zumo\ZumokitBundle\Model\UserInterface $user
      *
      * @return $this
      */

@@ -2,7 +2,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue?style=flat-square)](LICENSE)
 
-Symfony bundle for Blockstar's ZumoKit service. This repository contains code for integration into application based on Symfony 4.x or newer.
+Symfony bundle for Zumo's ZumoKit service. This repository contains code for integration into application based on Symfony 4.x or newer.
 
 > Please note, during Zumo's alpha and beta period, the API is subject to change and may impact bundle.
 
@@ -27,13 +27,13 @@ Symfony bundle for Blockstar's ZumoKit service. This repository contains code fo
 Install the latest stable version of the ZumoKit Bundle via Composer:
 
 ```bash
-composer require blockstar/zumokit-bundle
+composer require zumo/zumokit-bundle
 ```
 
 This will choose the best version for your project, add it to composer.json and download its code into the vendor/ directory. If you need a specific version, include it as the second argument of the composer require command:
 
 ```bash
-composer require blockstar/zumokit-bundle "~1.0"
+composer require zumo/zumokit-bundle "~1.0"
 ```
 
 #### If yor application is not based on Symfony Flex
@@ -43,7 +43,7 @@ If your application is not based on Symfony Flex you need to manually enable bun
 ```php
 return [
     // ...
-    Blockstar\ZumokitBundle\BlockstarZumokitBundle::class => ['all' => true],
+    Zumo\ZumokitBundle\ZumoZumokitBundle::class => ['all' => true],
 ];
 ```
 
@@ -57,7 +57,7 @@ way is to have the sensitive values stored in environment variables, which you t
 here using Symfony %env(ENV_VAR_NAME)% notation.**
 
 ```yaml
-blockstar_zumokit:
+zumokit:
     public_key: '...'                             # Path to the public key file for signing tokens.
     private_key: ...'                             # Path to the private key file for signing tokens.
     passphrase: '...'                             # The private key passphrase.

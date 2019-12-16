@@ -1,36 +1,36 @@
 <?php
 
 /**
- * This file is part of the blockstar/zumokit-bundle package.
+ * This file is part of the zumo/zumokit-bundle package.
  *
- * (c) DLabs / Blockstar 2019
+ * (c) DLabs / Zumo 2019
  * Author Vladimir Strackovski <vladimir.strackovski@dlabs.si>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
-namespace Blockstar\ZumokitBundle\Service\Request\Validator;
+namespace Zumo\ZumokitBundle\Service\Request\Validator;
 
-use Blockstar\ZumokitBundle\Exception\AuthenticationRequestException;
-use Blockstar\ZumokitBundle\Exception\TokenException;
-use Blockstar\ZumokitBundle\Model\ZumoApp;
-use Blockstar\ZumokitBundle\Service\Token\Extractor\BearerExtractor;
-use Blockstar\ZumokitBundle\Service\Token\JWTDecoder;
+use Zumo\ZumokitBundle\Exception\AuthenticationRequestException;
+use Zumo\ZumokitBundle\Exception\TokenException;
+use Zumo\ZumokitBundle\Model\ZumoApp;
+use Zumo\ZumokitBundle\Service\Token\Extractor\BearerExtractor;
+use Zumo\ZumokitBundle\Service\Token\JWTDecoder;
 use Lcobucci\JWT\Token;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Class RequestValidator
  *
- * @package      Blockstar\ZumokitBundle\Service\Token\Validator
+ * @package      Zumo\ZumokitBundle\Service\Token\Validator
  * @author       Vladimir Strackovski <vladimir.strackovski@dlabs.si>
  * @copyright    2019 DLabs (https://www.dlabs.si)
  */
 class RequestValidator
 {
     /**
-     * @var \Blockstar\ZumokitBundle\Service\Token\JWTDecoder
+     * @var \Zumo\ZumokitBundle\Service\Token\JWTDecoder
      */
     private $decoder;
 
@@ -40,7 +40,7 @@ class RequestValidator
     private $publicKey;
 
     /**
-     * @var \Blockstar\ZumokitBundle\Model\ZumoApp
+     * @var \Zumo\ZumokitBundle\Model\ZumoApp
      */
     private $app;
 
@@ -48,7 +48,7 @@ class RequestValidator
      * RequestValidator constructor.
      *
      * @param string                                 $publicKey
-     * @param \Blockstar\ZumokitBundle\Model\ZumoApp $app
+     * @param \Zumo\ZumokitBundle\Model\ZumoApp $app
      */
     public function __construct(string $publicKey, ZumoApp $app)
     {
@@ -66,8 +66,8 @@ class RequestValidator
      * @param \Symfony\Component\HttpFoundation\Request $request
      *
      * @return \Lcobucci\JWT\Token
-     * @throws \Blockstar\ZumokitBundle\Exception\TokenException
-     * @throws \Blockstar\ZumokitBundle\Exception\AuthenticationRequestException
+     * @throws \Zumo\ZumokitBundle\Exception\TokenException
+     * @throws \Zumo\ZumokitBundle\Exception\AuthenticationRequestException
      */
     public function validate(Request $request): Token
     {

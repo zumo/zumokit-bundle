@@ -1,24 +1,24 @@
 <?php
 
 /**
- * This file is part of the blockstar/zumokit-bundle package.
+ * This file is part of the zumo/zumokit-bundle package.
  *
- * (c) DLabs / Blockstar 2019
+ * (c) DLabs / Zumo 2019
  * Author Vladimir Strackovski <vladimir.strackovski@dlabs.si>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
-namespace Blockstar\ZumokitBundle\Service\Token;
+namespace Zumo\ZumokitBundle\Service\Token;
 
-use Blockstar\ZumokitBundle\Exception\TokenException;
+use Zumo\ZumokitBundle\Exception\TokenException;
 use Lcobucci\JWT;
 
 /**
  * Class JWTDecoder
  *
- * @package Blockstar\ZumokitBundle\Service\Token
+ * @package Zumo\ZumokitBundle\Service\Token
  * @author  Vladimir Strackovski <vladimir.strackovski@dlabs.si>
  */
 class JWTDecoder
@@ -48,7 +48,7 @@ class JWTDecoder
      * @param string $publicKey
      *
      * @return \Lcobucci\JWT\Token|null
-     * @throws \Blockstar\ZumokitBundle\Exception\TokenException
+     * @throws \Zumo\ZumokitBundle\Exception\TokenException
      */
     public function decode(string $token, string $publicKey): ?JWT\Token
     {
@@ -64,7 +64,7 @@ class JWTDecoder
      * @param \Lcobucci\JWT\Token $parsed
      * @param string              $publicKey
      *
-     * @throws \Blockstar\ZumokitBundle\Exception\TokenException
+     * @throws \Zumo\ZumokitBundle\Exception\TokenException
      */
     private function verifyParsedToken(JWT\Token $parsed, string $publicKey): void
     {
@@ -81,7 +81,7 @@ class JWTDecoder
     /**
      * @param \Lcobucci\JWT\Token $parsed
      *
-     * @throws \Blockstar\ZumokitBundle\Exception\TokenException
+     * @throws \Zumo\ZumokitBundle\Exception\TokenException
      */
     private function validateParsedToken(JWT\Token $parsed): void
     {

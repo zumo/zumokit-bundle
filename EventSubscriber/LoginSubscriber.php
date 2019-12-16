@@ -1,18 +1,18 @@
 <?php
 
 /**
- * This file is part of the blockstar/zumokit-bundle package.
+ * This file is part of the zumo/zumokit-bundle package.
  *
- * (c) DLabs / Blockstar 2019
+ * (c) DLabs / Zumo 2019
  * Author Vladimir Strackovski <vladimir.strackovski@dlabs.si>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
-namespace Blockstar\ZumokitBundle\EventSubscriber;
+namespace Zumo\ZumokitBundle\EventSubscriber;
 
-use Blockstar\ZumokitBundle\Service\EventHandler\LoginSuccessHandler;
+use Zumo\ZumokitBundle\Service\EventHandler\LoginSuccessHandler;
 use Lexik\Bundle\JWTAuthenticationBundle\Event\JWTCreatedEvent;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -23,7 +23,7 @@ use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
  * Class LoginSubscriber subscribes to successful user login events
  * and dispatches the designated handler(s).
  *
- * @package      Blockstar\ZumokitBundle\EventSubscriber
+ * @package      Zumo\ZumokitBundle\EventSubscriber
  * @author       Vladimir Strackovski <vladimir.strackovski@dlabs.si>
  * @copyright    2018 DLabs (https://www.dlabs.si)
  */
