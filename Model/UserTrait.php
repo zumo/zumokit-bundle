@@ -1,21 +1,21 @@
 <?php
 
 /**
- * This file is part of the blockstar/zumokit-bundle package.
+ * This file is part of the zumo/zumokit-bundle package.
  *
- * (c) DLabs / Blockstar 2019
+ * (c) DLabs / Zumo 2019
  * Author Vladimir Strackovski <vladimir.strackovski@dlabs.si>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
-namespace Blockstar\ZumokitBundle\Model;
+namespace Zumo\ZumokitBundle\Model;
 
 /**
  * ZumoUserTrait represents a model of a user account.
  *
- * @package      Blockstar\ZumokitBundle\Model
+ * @package      Zumo\ZumokitBundle\Model
  * @author       Vladimir Strackovski <vladimir.strackovski@dlabs.si>
  * @copyright    2018 DLabs (https://www.dlabs.si)
  */
@@ -53,7 +53,7 @@ trait UserTrait
     }
 
     /**
-     * @return \Blockstar\ZumokitBundle\Model\WalletInterface|null
+     * @return \Zumo\ZumokitBundle\Model\WalletInterface|null
      */
     public function getWallet(): ?WalletInterface
     {
@@ -61,9 +61,9 @@ trait UserTrait
     }
 
     /**
-     * @param \Blockstar\ZumokitBundle\Model\WalletInterface $wallet
+     * @param \Zumo\ZumokitBundle\Model\WalletInterface $wallet
      *
-     * @return \Blockstar\ZumokitBundle\Model\User|\Blockstar\ZumokitBundle\Model\UserInterface|\Blockstar\ZumokitBundle\Model\UserTrait
+     * @return \Zumo\ZumokitBundle\Model\User|\Zumo\ZumokitBundle\Model\UserInterface|\Zumo\ZumokitBundle\Model\UserTrait
      */
     public function setWallet(WalletInterface $wallet)
     {
@@ -82,7 +82,7 @@ trait UserTrait
     /**
      * @param string $email
      *
-     * @return \Blockstar\ZumokitBundle\Model\User|\Blockstar\ZumokitBundle\Model\UserTrait
+     * @return \Zumo\ZumokitBundle\Model\User|\Zumo\ZumokitBundle\Model\UserTrait
      */
     public function setEmail($email)
     {

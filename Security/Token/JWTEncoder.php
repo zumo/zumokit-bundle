@@ -1,23 +1,23 @@
 <?php
 
 /**
- * This file is part of the blockstar/zumokit-bundle package.
+ * This file is part of the zumo/zumokit-bundle package.
  *
- * (c) DLabs / Blockstar 2019
+ * (c) DLabs / Zumo 2019
  * Author Vladimir Strackovski <vladimir.strackovski@dlabs.si>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
-namespace Blockstar\ZumokitBundle\Security\Token;
+namespace Zumo\ZumokitBundle\Security\Token;
 
-use Blockstar\ZumokitBundle\Model\ZumoApp;
-use Blockstar\ZumokitBundle\Model\ZumoUser;
-use Blockstar\ZumokitBundle\Security\Claim\APP;
-use Blockstar\ZumokitBundle\Security\Claim\BaseClaim;
-use Blockstar\ZumokitBundle\Security\Claim\OTT;
-use Blockstar\ZumokitBundle\Security\Claim\PAT;
+use Zumo\ZumokitBundle\Model\ZumoApp;
+use Zumo\ZumokitBundle\Model\ZumoUser;
+use Zumo\ZumokitBundle\Security\Claim\APP;
+use Zumo\ZumokitBundle\Security\Claim\BaseClaim;
+use Zumo\ZumokitBundle\Security\Claim\OTT;
+use Zumo\ZumokitBundle\Security\Claim\PAT;
 use Lcobucci\JWT\Builder;
 use Lcobucci\JWT\Signer\Keychain;
 use Lcobucci\JWT\Signer\Rsa\Sha256;
@@ -27,7 +27,7 @@ use Psr\Log\LoggerInterface;
 /**
  * Class JWTEncoder
  *
- * @package Blockstar\ZumokitBundle\Service\Token
+ * @package Zumo\ZumokitBundle\Service\Token
  * @author  Vladimir Strackovski <vladimir.strackovski@dlabs.si>
  */
 class JWTEncoder
@@ -43,7 +43,7 @@ class JWTEncoder
     private $passPhrase;
 
     /**
-     * @var \Blockstar\ZumokitBundle\Model\ZumoApp
+     * @var \Zumo\ZumokitBundle\Model\ZumoApp
      */
     private $app;
 
@@ -57,7 +57,7 @@ class JWTEncoder
      *
      * @param string                                 $privateKey
      * @param string                                 $passPhrase
-     * @param \Blockstar\ZumokitBundle\Model\ZumoApp $app
+     * @param \Zumo\ZumokitBundle\Model\ZumoApp $app
      * @param \Psr\Log\LoggerInterface               $logger
      */
     public function __construct(string $privateKey, string $passPhrase, ZumoApp $app, LoggerInterface $logger)
@@ -72,8 +72,8 @@ class JWTEncoder
      * Creates a signed JSON web token from the specified combination of ZumoKit
      * user and app.
      *
-     * @param \Blockstar\ZumokitBundle\Model\ZumoUser           $user
-     * @param \Blockstar\ZumokitBundle\Security\Claim\BaseClaim $claims
+     * @param \Zumo\ZumokitBundle\Model\ZumoUser           $user
+     * @param \Zumo\ZumokitBundle\Security\Claim\BaseClaim $claims
      *
      * @return \Lcobucci\JWT\Token
      */
@@ -101,8 +101,8 @@ class JWTEncoder
 
     /**
      * @param \Lcobucci\JWT\Builder                             $builder
-     * @param \Blockstar\ZumokitBundle\Model\ZumoUser           $user
-     * @param \Blockstar\ZumokitBundle\Security\Claim\BaseClaim $claims
+     * @param \Zumo\ZumokitBundle\Model\ZumoUser           $user
+     * @param \Zumo\ZumokitBundle\Security\Claim\BaseClaim $claims
      *
      * @return \Lcobucci\JWT\Builder
      */
@@ -128,7 +128,7 @@ class JWTEncoder
     }
 
     /**
-     * @return \Blockstar\ZumokitBundle\Model\ZumoApp
+     * @return \Zumo\ZumokitBundle\Model\ZumoApp
      */
     public function getApp(): ZumoApp
     {

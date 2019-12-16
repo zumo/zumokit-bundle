@@ -1,21 +1,21 @@
 <?php
 
 /**
- * This file is part of the blockstar/zumokit-bundle package.
+ * This file is part of the zumo/zumokit-bundle package.
  *
- * (c) DLabs / Blockstar 2019
+ * (c) DLabs / Zumo 2019
  * Author Vladimir Strackovski <vladimir.strackovski@dlabs.si>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
-namespace Blockstar\ZumokitBundle\Service\Wallet;
+namespace Zumo\ZumokitBundle\Service\Wallet;
 
 /**
  * Class Map
  *
- * @package Blockstar\ZumokitBundle\Service\Wallet
+ * @package Zumo\ZumokitBundle\Service\Wallet
  * @author  Vladimir Strackovski <vladimir.strackovski@dlabs.si>
  */
 class Map
@@ -33,7 +33,7 @@ class Map
     /**
      * Map constructor.
      *
-     * @param \Blockstar\ZumokitBundle\Service\Wallet\App\Repository\UserRepository $repository
+     * @param \Zumo\ZumokitBundle\Service\Wallet\App\Repository\UserRepository $repository
      * @param \Psr\Log\LoggerInterface                                              $logger
      */
     public function __construct(
@@ -75,7 +75,7 @@ class Map
                 $user = $this->repository->findByEmail($item['user']['email']);
             }
 
-            if (!$user instanceof \Blockstar\ZumokitBundle\Model\UserInterface) {
+            if (!$user instanceof \Zumo\ZumokitBundle\Model\UserInterface) {
                 $this->logger->critical(sprintf('Failed fetching user %s.', $item['user']['email']));
                 return null;
             }

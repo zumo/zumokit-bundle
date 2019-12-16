@@ -1,16 +1,16 @@
 <?php
 
 /**
- * This file is part of the blockstar/zumokit-bundle package.
+ * This file is part of the zumo/zumokit-bundle package.
  *
- * (c) DLabs / Blockstar 2019
+ * (c) DLabs / Zumo 2019
  * Author Vladimir Strackovski <vladimir.strackovski@dlabs.si>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
-namespace Blockstar\ZumokitBundle\Model;
+namespace Zumo\ZumokitBundle\Model;
 
 use Lcobucci\JWT\Token;
 
@@ -18,7 +18,7 @@ use Lcobucci\JWT\Token;
  * Class ZumoUser represents a model of a user account with
  * all properties required to authenticate to the RIP service.
  *
- * @package      Blockstar\ZumokitBundle\Model
+ * @package      Zumo\ZumokitBundle\Model
  * @author       Vladimir Strackovski <vladimir.strackovski@dlabs.si>
  * @copyright    2018 DLabs (https://www.dlabs.si)
  */
@@ -40,12 +40,12 @@ class ZumoUser extends User
     private $authenticated;
 
     /**
-     * @var \Blockstar\ZumokitBundle\Model\AppCredentials
+     * @var \Zumo\ZumokitBundle\Model\AppCredentials
      */
     private $appCredentials;
 
     /**
-     * @var \Blockstar\ZumokitBundle\Model\ClientCredentials
+     * @var \Zumo\ZumokitBundle\Model\ClientCredentials
      */
     private $clientCredentials;
 
@@ -112,7 +112,7 @@ class ZumoUser extends User
     }
 
     /**
-     * @return \Blockstar\ZumokitBundle\Model\ClientCredentials
+     * @return \Zumo\ZumokitBundle\Model\ClientCredentials
      */
     public function getClientCredentials(): ClientCredentials
     {
@@ -120,7 +120,7 @@ class ZumoUser extends User
     }
 
     /**
-     * @return \Blockstar\ZumokitBundle\Model\AppCredentials
+     * @return \Zumo\ZumokitBundle\Model\AppCredentials
      */
     public function getAppCredentials(): AppCredentials
     {

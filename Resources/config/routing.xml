@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!--
-  ~ This file is part of the blockstar/zumokit-bundle package.
+  ~ This file is part of the zumo/zumokit-bundle package.
   ~
-  ~ (c) DLabs / Blockstar 2019
+  ~ (c) DLabs / Zumo 2019
   ~ Author Vladimir Strackovski <vladimir.strackovski@dlabs.si>
   ~
   ~ For the full copyright and license information, please view the LICENSE
@@ -13,18 +13,18 @@
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://symfony.com/schema/routing http://symfony.com/schema/routing/routing-1.0.xsd">
 
   <route id="zumokit_bundle_pre_auth" path="/wallet/preauth" methods="POST">
-    <default key="_controller">blockstar_zumokit.auth.controller:getZumoKitTokenAction</default>
+    <default key="_controller">zumokit.auth.controller:getZumoKitTokenAction</default>
   </route>
 
   <route id="zumokit_bundle_map" path="/wallet/map" methods="POST">
-    <default key="_controller">blockstar_zumokit.auth.controller:mapWalletsAction</default>
+    <default key="_controller">zumokit.auth.controller:mapWalletsAction</default>
   </route>
 
   <route id="zumokit_bundle_sync" path="/wallet/sync" methods="POST">
-    <default key="_controller">blockstar_zumokit.auth.controller:syncAction</default>
+    <default key="_controller">zumokit.auth.controller:syncAction</default>
   </route>
 
   <route id="zumokit_bundle_health_check" path="/wallet/healthcheck" methods="GET">
-    <default key="_controller">blockstar_zumokit.health.controller:healthCheckAction</default>
+    <default key="_controller">zumokit.health.controller:healthCheckAction</default>
   </route>
 </routes>
