@@ -29,25 +29,46 @@ class Wallet implements WalletInterface
     protected $id;
 
     /**
-     * Identity of the Wallet as recorded in the ZumoKit service.
-     *
-     * @var string
-     */
-    protected $serviceId;
-
-    /**
-     * The blockchain address of this wallet.
+     * The blockchain address.
      *
      * @var string The blockchain address.
      */
     protected $address;
 
     /**
-     * Time of last sync with remote service.
+     * The name of crypto coin.
      *
-     * @var \DateTimeImmutable Last sync time
+     * @var string The blockchain address.
      */
-    protected $lastSyncAt;
+    protected $coin;
+
+    /**
+     * The symbol of crypto coin.
+     *
+     * @var string The blockchain address.
+     */
+    protected $symbol;
+
+    /**
+     * The network name of crypto coin.
+     *
+     * @var string The blockchain address.
+     */
+    protected $network;
+
+    /**
+     * The path of crypto coin.
+     *
+     * @var string The blockchain address.
+     */
+    protected $path;
+
+    /**
+     * The version of crypto coin parameter values (used for synchronization with Zumokit API).
+     *
+     * @var string The blockchain address.
+     */
+    protected $version;
 
     /**
      * @var \Zumo\ZumokitBundle\Model\UserInterface
@@ -82,42 +103,6 @@ class Wallet implements WalletInterface
     public function setUser(UserInterface $user)
     {
         $this->user = $user;
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getServiceId()
-    {
-        return $this->serviceId;
-    }
-
-    /**
-     * @param string $serviceId
-     *
-     * @return $this
-     */
-    public function setServiceId(?string $serviceId = null)
-    {
-        $this->serviceId = $serviceId;
-        return $this;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getLastSyncAt(): ?\DateTimeImmutable
-    {
-        return $this->lastSyncAt;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function setLastSyncAt(\DateTimeImmutable $time): WalletInterface
-    {
-        $this->lastSyncAt = $time;
         return $this;
     }
 
@@ -173,12 +158,97 @@ class Wallet implements WalletInterface
     }
 
     /**
-     * Returns the address.
-     *
-     * @return string
+     * @return string|null
      */
-    public function __toString()
+    public function getCoin()
     {
-        return $this->getAddress();
+        return $this->coin;
+    }
+
+    /**
+     * @param string $coin
+     *
+     * @return $this
+     */
+    public function setCoin(?string $coin = null)
+    {
+        $this->coin = $coin;
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getSymbol()
+    {
+        return $this->symbol;
+    }
+
+    /**
+     * @param string $symbol
+     *
+     * @return $this
+     */
+    public function setSymbol(?string $symbol = null)
+    {
+        $this->symbol = $symbol;
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getPath()
+    {
+        return $this->path;
+    }
+
+    /**
+     * @param string $path
+     *
+     * @return $this
+     */
+    public function setPath(?string $path = null)
+    {
+        $this->path = $path;
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getNetwork()
+    {
+        return $this->network;
+    }
+
+    /**
+     * @param string $network
+     *
+     * @return $this
+     */
+    public function setNetwork(?string $network = null)
+    {
+        $this->network = $network;
+        return $network;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getVersion()
+    {
+        return $this->version;
+    }
+
+    /**
+     * @param string $version
+     *
+     * @return $this
+     */
+    public function setVersion(?string $version = null)
+    {
+        $this->version = $version;
+        return $version;
     }
 }
