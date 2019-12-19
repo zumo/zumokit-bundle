@@ -7,9 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.4] - 2019-12-19
+
+### Fixed
+
+- Fixed package version in composer.json.
+
 ## [1.0.3] - 2019-12-19
 
-### Changed
+### Fixed
 
 - Fixed typo in composer.json.
 
