@@ -7,7 +7,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [1.0.1] - 09-11-2019
+## [1.0.3] - 2019-12-19
+
+### Changed
+
+- Fixed typo in composer.json.
+
+## [1.0.2] - 2019-12-19
+
+### Added
+
+- Added additional parameters to the wallet entity.
+- Consideration of additional wallet parameters when synchronizing wallets (wallet addresses, coin names, symbols, etc.).
+
+## [1.0.1] - 2019-11-09
 
 ### Changed
 
@@ -16,6 +29,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Renamed root configuration parameter from 'zumo_zumokit' to 'zumokit'.
 - Security update: changed minimal required version of symfony/dependency-injection and symfony/framework-bundle.
 
-## [1.0.0] - 11-11-2019
+## [1.0.0] - 2019-11-11
 
 Initial public release.
