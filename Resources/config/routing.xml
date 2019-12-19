@@ -21,7 +21,7 @@
   </route>
 
   <route id="zumokit_bundle_sync" path="/wallet/sync" methods="POST">
-    <default key="_controller">zumokit.auth.controller:syncAction</default>
+    <default key="_controller">zumokit.auth.controller:syncWallets</default>
   </route>
 
   <route id="zumokit_bundle_health_check" path="/wallet/healthcheck" methods="GET">

@@ -156,32 +156,34 @@ class AuthController extends AbstractController
      *
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
-    public function syncAction(Request $request)
+    public function syncWallets(Request $request)
     {
         // Decoded request payload is expected to have the following structure:
-        // [{"id":"user-zumo-id/iid", "accounts": [{"chainId":"", "address":"", "coin":"", "symbol":"", "path":""}]}]
+        // [{"id":"user's iid", "accounts": [{"chainId":"", "address":"", "coin":"", "symbol":"", "path":""}]}]
 
         // Decode request payload to array.
-        $inputPayload = json_decode($request->getContent(), true);
-        $successItems = [];
+        $payload = json_decode($request->getContent(), true);
 
         // Iterate each payload item.
-        foreach ($inputPayload as $inputItem) {
+        $successItems = [];
+        foreach ($payload as $item) {
             // Check if topmost required keys exist in array.
-            if (!array_key_exists('accounts', $inputItem) || !array_key_exists('id', $inputItem)) {
-                $this->logger->critical('accounts/id key(s) not present in accounts.');
+            if (!array_key_exists('id', $item) || !array_key_exists('accounts', $item)) {
+                $this->logger->critical('Missing id/accounts key(s).');
                 continue;
             }
 
-            // Check id in item is not null
-            if (is_null($inputItem['id'])) {
-                $this->logger->critical('id is null.');
+            $appUserId = $item['id'];
+
+            // Skip if ID is not provided or not in UUID format.
+            if (is_null($appUserId) || is_int($appUserId)) {
+                $this->logger->critical('Invalid ID.');
                 continue;
             }
 
             // Search for user in database
-            $userId = $inputItem['id'];
-            $userObj = $this->repository->findOneBy(['id' => $userId]);
+
+            $userObj = $this->repository->findOneBy(['id' => $appUserId]);
 
             // Check if retrieved object is of correct type
             if (get_class($userObj) !== 'App\Entity\User') {
@@ -201,22 +203,24 @@ class AuthController extends AbstractController
                 continue;
             }
 
-            // Do not assume array indexes are numeric
-            $index = 0;
             // Iterate and get first account, its address and create a new local Wallet
-            foreach ($inputItem['accounts'] as $inputItemAddress) {
+            foreach ($item['accounts'] as $account) {
                 try {
-                    $newWallet = new \App\Entity\Wallet($inputItemAddress, $userObj);
-                    $userObj->setWallet($newWallet);
-                    $this->repository->save($newWallet);
+                    $wallet = new \App\Entity\Wallet($account['address'], $userObj);
+                    $wallet->setCoin($account['coin']);
+                    $wallet->setSymbol($account['symbol']);
+                    $wallet->setNetwork($account['network']);
+                    $wallet->setChainId($account['chainId']);
+                    $wallet->setPath($account['path']);
+                    $wallet->setVersion($account['version']);
+                    $userObj->setWallet($wallet);
+                    $this->repository->save($wallet);
                 } catch (\Exception $exception) {
-                    $this->logger->critical(sprintf('Error saving local wallet: %s ', $exception->getMessage()));
+                    $this->logger->critical(sprintf('Failed to create wallet account for user %s, data: %s . Message: %s ', $userObj->getId(), json_encode($account), $exception->getMessage()));
                 }
-
-                $index++;
             }
 
-            $successItems[] = $inputItem;
+            $successItems[] = $item;
         }
 
         return new JsonResponse($successItems, 200);

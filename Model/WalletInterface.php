@@ -39,18 +39,6 @@ interface WalletInterface
     public function getUser(): ?UserInterface;
 
     /**
-     * @return string
-     */
-    public function getServiceId();
-
-    /**
-     * @param string $serviceId
-     *
-     * @return \Zumo\ZumokitBundle\Model\WalletInterface
-     */
-    public function setServiceId(?string $serviceId = null);
-
-    /**
      * @return string|null
      */
     public function getAddress();
@@ -61,26 +49,4 @@ interface WalletInterface
      * @return \Zumo\ZumokitBundle\Model\WalletInterface
      */
     public function setAddress(?string $address = null);
-
-    /**
-     * @return \DateTimeImmutable|null
-     */
-    public function getLastSyncAt(): ?\DateTimeImmutable;
-
-    /**
-     * @param \DateTimeImmutable $time
-     *
-     * @return \Zumo\ZumokitBundle\Model\WalletInterface
-     */
-    public function setLastSyncAt(\DateTimeImmutable $time);
-
-    /**
-     * @return mixed
-     */
-    public function __toString();
-
-    /**
-     * @return array
-     */
-    public function toArray(): array;
 }
