@@ -2,7 +2,7 @@
   "name": "zumo/zumokit-bundle",
   "type": "symfony-bundle",
   "description": "Symfony bundle for Zumo's ZumoKit service.",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "license" : "MIT",
   "keywords": [
     "zumo",
