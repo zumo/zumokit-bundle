@@ -158,7 +158,7 @@ class AuthController extends AbstractController
         // Decoded request payload is expected to have the following structure:
         // [{"id":"user's iid", "accounts": [{"chainId":"", "address":"", "coin":"", "symbol":"", "path":""}]}]
 
-        $walletRepository = $this->getDoctrine()->getRepository(Wallet::class);
+        $walletRepository = $this->getDoctrine()->getRepository(\App\Entity\Wallet::class);
         $em = $this->getDoctrine()->getManager();
 
         // Decode request payload to array.
@@ -222,7 +222,7 @@ class AuthController extends AbstractController
                         $em->flush();
                     } else {
                         // Create new wallet
-                        $wallet = new Wallet();
+                        $wallet = new \App\Entity\Wallet();
                         $wallet->setAddress($account['address']);
                         $wallet->setCoin($account['coin']);
                         $wallet->setSymbol($account['symbol']);
