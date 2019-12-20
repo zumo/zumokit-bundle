@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.5] - 2019-12-19
+
+### Changed
+
+- Changes due to the reference direction change between user and his wallets (Wallets => User):
+  - Added 'user' property to the 'wallet' entity.
+
+### Added
+
+- Added verification if wallet already exists on Controller/AuthController/syncWallets before deciding whether to update properties of existing wallet or create a new one.
+
 ## [1.0.4] - 2019-12-19
 
 ### Fixed
