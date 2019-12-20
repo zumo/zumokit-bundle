@@ -16,11 +16,10 @@ use Zumo\ZumokitBundle\Model\ZumoApp;
 use Zumo\ZumokitBundle\Service\Client\SapiClient;
 use Zumo\ZumokitBundle\Service\Request\RequestFactory;
 use Zumo\ZumokitBundle\Service\Request\SAPI\AccountCheckRequest;
-//use Zumo\ZumokitBundle\Service\Request\SAPI\PreAuthRequest;
-use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class HealthController
