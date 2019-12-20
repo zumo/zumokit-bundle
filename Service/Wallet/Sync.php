@@ -51,6 +51,8 @@ class Sync
      * @param string|null $userId
      *
      * @return void
+     *
+     * @deprecated This method needs to be updated since we have multiple wallets per user since 2019-12-19.
      */
     public function sync(?string $walletAddress, ?string $userId): void
     {
@@ -70,15 +72,10 @@ class Sync
             }
         }
 
-        try {
-            if (!($user->getWallet() instanceof WalletInterface)) {
-                $localWallet = new \App\Entity\Wallet($walletAddress);
-                $user->setWallet($localWallet);
-                $this->repository->save($localWallet);
-            }
-        } catch (UniqueConstraintViolationException $exception) {
-            $this->logger->critical(sprintf('A violation occured: %s ', $exception->getMessage()));
-            return;
+        $wallets = $user->getWallets();
+        if (empty($wallets)) {
+            $wallet = new \App\Entity\Wallet($user, $walletAddress);
+            $this->repository->save($wallet);
         }
     }
 }

@@ -13,8 +13,6 @@
 namespace Zumo\ZumokitBundle\Test;
 
 use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractCompilerPassTestCase;
-use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 /**
  * Class ZumokitCompilerPassTest

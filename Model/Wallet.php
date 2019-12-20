@@ -29,6 +29,11 @@ class Wallet implements WalletInterface
     protected $id;
 
     /**
+     * @var \Zumo\ZumokitBundle\Model\UserInterface
+     */
+    protected $user;
+
+    /**
      * The blockchain address.
      *
      * @var string The blockchain address.
@@ -71,20 +76,16 @@ class Wallet implements WalletInterface
     protected $version;
 
     /**
-     * @var \Zumo\ZumokitBundle\Model\UserInterface
-     */
-    protected $user;
-
-    /**
      * Wallet constructor.
      *
-     * @param string                                       $address
+     *
      * @param \Zumo\ZumokitBundle\Model\UserInterface $user
+     * @param string                                  $address
      */
-    public function __construct(string $address, UserInterface $user)
+    public function __construct(UserInterface $user, string $address)
     {
-        $this->address = $address;
         $this->user    = $user;
+        $this->address = $address;
     }
 
     /**

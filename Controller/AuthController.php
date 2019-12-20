@@ -17,16 +17,13 @@ use Zumo\ZumokitBundle\Model\Wallet;
 use Zumo\ZumokitBundle\Model\ZumoApp;
 use Zumo\ZumokitBundle\Security\Token\JWTEncoder;
 use Zumo\ZumokitBundle\Service\Client\SapiClient;
-use Zumo\ZumokitBundle\Service\Request\RequestFactory;
-use Zumo\ZumokitBundle\Service\Request\SAPI\AccessTokenRequest;
 use Zumo\ZumokitBundle\Service\Request\Validator\RequestValidator;
 use Zumo\ZumokitBundle\Service\Wallet\Map;
-use Zumo\ZumokitBundle\Service\Wallet\Sync;
-use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class AuthController
@@ -161,6 +158,9 @@ class AuthController extends AbstractController
         // Decoded request payload is expected to have the following structure:
         // [{"id":"user's iid", "accounts": [{"chainId":"", "address":"", "coin":"", "symbol":"", "path":""}]}]
 
+        $walletRepository = $this->getDoctrine()->getRepository(Wallet::class);
+        $em = $this->getDoctrine()->getManager();
+
         // Decode request payload to array.
         $payload = json_decode($request->getContent(), true);
 
@@ -205,16 +205,36 @@ class AuthController extends AbstractController
 
             // Iterate and get first account, its address and create a new local Wallet
             foreach ($item['accounts'] as $account) {
+
                 try {
-                    $wallet = new \App\Entity\Wallet($account['address'], $userObj);
-                    $wallet->setCoin($account['coin']);
-                    $wallet->setSymbol($account['symbol']);
-                    $wallet->setNetwork($account['network']);
-                    $wallet->setChainId($account['chainId']);
-                    $wallet->setPath($account['path']);
-                    $wallet->setVersion($account['version']);
-                    $userObj->setWallet($wallet);
-                    $this->repository->save($wallet);
+
+                    // Check if wallet already exist
+                    $wallet = $walletRepository->findOneBy(['address' => $account['address']]); // , 'user' => $userObj->getId()
+                    if (!empty($wallet)) {
+                        // Update existing wallet
+                        $wallet->setCoin($account['coin']);
+                        $wallet->setSymbol($account['symbol']);
+                        $wallet->setNetwork($account['network']);
+                        $wallet->setChainId($account['chainId']);
+                        $wallet->setPath($account['path']);
+                        $wallet->setVersion($account['version']);
+                        $wallet->setUser($userObj);
+                        $em->flush();
+                    } else {
+                        // Create new wallet
+                        $wallet = new Wallet();
+                        $wallet->setAddress($account['address']);
+                        $wallet->setCoin($account['coin']);
+                        $wallet->setSymbol($account['symbol']);
+                        $wallet->setNetwork($account['network']);
+                        $wallet->setChainId($account['chainId']);
+                        $wallet->setPath($account['path']);
+                        $wallet->setVersion($account['version']);
+                        $wallet->setUser($userObj);
+                        $em->persist($wallet);
+                        $em->flush();
+                    }
+
                 } catch (\Exception $exception) {
                     $this->logger->critical(sprintf('Failed to create wallet account for user %s, data: %s . Message: %s ', $userObj->getId(), json_encode($account), $exception->getMessage()));
                 }
