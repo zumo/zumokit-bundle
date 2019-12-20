@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.6] - 2019-12-20
+
+### Fixed
+
+- Fixed namespace for Wallet in Controller/AuthControoler.
+
 ## [1.0.5] - 2019-12-19
 
 ### Changed

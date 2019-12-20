@@ -27,11 +27,6 @@ use Zumo\ZumokitBundle\Service\Request\Parameters\Parameters;
 class ZumoApp
 {
     /**
-     * @var static
-     */
-    public const ZUMOKIT_URL_DESCRIPTOR = 'https://*.kit.zumopay.com';
-
-    /**
      * @var string
      */
     private $id;
