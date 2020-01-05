@@ -13,7 +13,7 @@
 namespace Zumo\ZumokitBundle\Model;
 
 /**
- * Wallet represents a model of a wallet.
+ * WalletTrait represents a model of a wallet.
  *
  * @package      Zumo\ZumokitBundle\Model
  * @author       Vladimir Strackovski <vladimir.strackovski@dlabs.si>

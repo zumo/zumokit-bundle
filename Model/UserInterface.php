@@ -25,12 +25,12 @@ use Zumo\ZumokitBundle\Model\WalletInterface;
 interface UserInterface
 {
     /**
-     * @return Collection|Wallet[]
+     * @return Collection|WalletInterface[]
      */
     public function getWallets(): Collection;
 
     /**
-     * @param EntityInterface $wallet
+     * @param WalletInterface $wallet
      * @return self
      */
     public function addWallet(WalletInterface $wallet);

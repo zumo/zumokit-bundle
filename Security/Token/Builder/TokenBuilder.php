@@ -12,6 +12,7 @@
 
 namespace Zumo\ZumokitBundle\Security\Token\Builder;
 
+use Zumo\ZumokitBundle\Security\Token\JWTEncoder;
 use Zumo\ZumokitBundle\Security\Claim\BaseClaim;
 use Lcobucci\JWT;
 
@@ -24,7 +25,7 @@ use Lcobucci\JWT;
 class TokenBuilder
 {
     /**
-     * @var \Zumo\ZumokitBundle\Security\Token\JWTEncoder
+     * @var JWTEncoder
      */
     private $encoder;
 
@@ -36,13 +37,10 @@ class TokenBuilder
     /**
      * TokenBuilder constructor.
      *
-     * @param \Zumo\ZumokitBundle\Security\Token\JWTEncoder $encoder
-     * @param ClaimBuilder                                       $builder
+     * @param JWTEncoder     $encoder
+     * @param ClaimBuilder                                      $builder
      */
-    public function __construct(
-        \Zumo\ZumokitBundle\Security\Token\JWTEncoder $encoder,
-        ClaimBuilder $builder
-    ) {
+    public function __construct(JWTEncoder $encoder, ClaimBuilder $builder) {
         $this->encoder      = $encoder;
         $this->claimBuilder = $builder;
     }

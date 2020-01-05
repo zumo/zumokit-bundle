@@ -14,15 +14,16 @@ namespace Zumo\ZumokitBundle\Controller;
 
 use Zumo\ZumokitBundle\Exception\AuthenticationRequestException;
 use Zumo\ZumokitBundle\Model\ZumoApp;
-use Zumo\ZumokitBundle\Security\Token\JWTEncoder;
 use Zumo\ZumokitBundle\Service\Client\SapiClient;
 use Zumo\ZumokitBundle\Service\Request\Validator\RequestValidator;
-use Zumo\ZumokitBundle\Service\Wallet\Map;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Psr\Log\LoggerInterface;
+use App\Entity\User;
+use App\Entity\Wallet;
+
 
 /**
  * Class AuthController
@@ -33,8 +34,6 @@ use Psr\Log\LoggerInterface;
  */
 class AuthController extends AbstractController
 {
-    public const REPOSITORY_SUPERCLASS = "App\Repository\EntityRepository";
-
     /**
      * @var LoggerInterface
      */
@@ -51,41 +50,33 @@ class AuthController extends AbstractController
     private $sapi;
 
     /**
-     * @var \Zumo\ZumokitBundle\Security\Token\JWTEncoder
-     */
-    private $tokenEncoder;
-
-    /**
      * @var RequestValidator
      */
     private $validator;
 
     /**
-     * @var \App\Repository\UserRepository
+     * @var UserRepository
      */
     private $repository;
 
     /**
      * AuthController constructor.
      *
-     * @param \Zumo\ZumokitBundle\Model\ZumoApp             $app
-     * @param \Zumo\ZumokitBundle\Service\Client\SapiClient $sapi
-     * @param \Zumo\ZumokitBundle\Security\Token\JWTEncoder $encoder
-     * @param RequestValidator                                   $validator
-     * @param \Psr\Log\LoggerInterface                           $logger
-     * @param \App\Repository\UserRepository                     $repository
+     * @param \Zumo\ZumokitBundle\Model\ZumoApp                 $app
+     * @param \Zumo\ZumokitBundle\Service\Client\SapiClient     $sapi
+     * @param RequestValidator                                  $validator
+     * @param \Psr\Log\LoggerInterface                          $logger
+     * @param UserRepository                                    $repository
      */
     public function __construct(
         ZumoApp $app,
         SapiClient $sapi,
-        JWTEncoder $encoder,
         RequestValidator $validator,
         LoggerInterface $logger,
-        \App\Repository\UserRepository $repository
+        UserRepository $repository
     ) {
         $this->app = $app;
         $this->sapi = $sapi;
-        $this->tokenEncoder = $encoder;
         $this->validator = $validator;
         $this->logger = $logger;
         $this->repository = $repository;
@@ -157,7 +148,7 @@ class AuthController extends AbstractController
         // Decoded request payload is expected to have the following structure:
         // [{"id":"user's iid", "accounts": [{"chainId":"", "address":"", "coin":"", "symbol":"", "path":""}]}]
 
-        $walletRepository = $this->getDoctrine()->getRepository(\App\Entity\Wallet::class);
+        $walletRepository = $this->getDoctrine()->getRepository(Wallet::class);
         $em = $this->getDoctrine()->getManager();
 
         // Decode request payload to array.
@@ -181,8 +172,8 @@ class AuthController extends AbstractController
             }
 
             // Search for user in database
-
-            $userObj = $this->repository->findOneBy(['id' => $appUserId]);
+            $userRepository = $this->getDoctrine()->getRepository(User::class);
+            $userObj = $userRepository->findOneBy(['id' => $appUserId]);
 
             // Check if retrieved object is of correct type
             if (get_class($userObj) !== 'App\Entity\User') {
@@ -220,7 +211,7 @@ class AuthController extends AbstractController
                         $em->flush();
                     } else {
                         // Create new wallet
-                        $wallet = new \App\Entity\Wallet();
+                        $wallet = new Wallet();
                         $wallet->setAddress($account['address']);
                         $wallet->setCoin($account['coin']);
                         $wallet->setSymbol($account['symbol']);
@@ -241,27 +232,5 @@ class AuthController extends AbstractController
         }
 
         return new JsonResponse($successItems, 200);
-    }
-
-    /**
-     * @param Request $request
-     *
-     * @return JsonResponse
-     */
-    public function mapWalletsAction(Request $request): JsonResponse
-    {
-        if (!$request->headers->has('Authorization')) {
-            return new JsonResponse(['error' => 'Unauthorized'], 401);
-        }
-
-        $body = json_decode($request->getContent(), true);
-        $mapped = [];
-
-        foreach ($body as $item) {
-            $mapper = new Map($this->repository, $this->logger);
-            $mapped[] = $mapper->map($body);
-        }
-
-        return new JsonResponse($mapped, 200);
     }
 }

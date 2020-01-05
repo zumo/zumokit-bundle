@@ -33,12 +33,12 @@ interface WalletInterface
     public function setId($id);
 
     /**
-     * @return User
+     * @return UserInterface
      */
     public function getUser(): ?UserInterface;
 
     /**
-     * @param User|null $user
+     * @param UserInterface|null $user
      * @return self
      */
     public function setUser(?UserInterface $user = null);

@@ -22,6 +22,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Improved User and Wallet entity interfaces. Now we support multiple wallets (crypto accounts) per user.
 
+### Removed
+
+- Removed excess code.
+
 ## [1.0.6] - 2019-12-20
 
 ### Fixed
