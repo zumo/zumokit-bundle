@@ -13,7 +13,6 @@
 namespace Zumo\ZumokitBundle\Controller;
 
 use Zumo\ZumokitBundle\Exception\AuthenticationRequestException;
-use Zumo\ZumokitBundle\Model\Wallet;
 use Zumo\ZumokitBundle\Model\ZumoApp;
 use Zumo\ZumokitBundle\Security\Token\JWTEncoder;
 use Zumo\ZumokitBundle\Service\Client\SapiClient;
@@ -205,7 +204,6 @@ class AuthController extends AbstractController
 
             // Iterate and get first account, its address and create a new local Wallet
             foreach ($item['accounts'] as $account) {
-
                 try {
 
                     // Check if wallet already exist
@@ -234,7 +232,6 @@ class AuthController extends AbstractController
                         $em->persist($wallet);
                         $em->flush();
                     }
-
                 } catch (\Exception $exception) {
                     $this->logger->critical(sprintf('Failed to create wallet account for user %s, data: %s . Message: %s ', $userObj->getId(), json_encode($account), $exception->getMessage()));
                 }

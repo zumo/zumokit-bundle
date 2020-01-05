@@ -21,4 +21,5 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBag;
  * @author  Vladimir Strackovski <vladimir.strackovski@dlabs.si>
  */
 class Bag extends ParameterBag
-{ }
+{
+}

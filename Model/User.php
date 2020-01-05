@@ -67,24 +67,28 @@ abstract class User implements UserInterface
         return (string) $this->getId();
     }
 
-    /**
+    /*
      * @return \Zumo\ZumokitBundle\Model\WalletInterface|null
      */
+    /*
     public function getWallet(): ?WalletInterface
     {
         return $this->wallet;
     }
+    */
 
-    /**
+    /*
      * @param \Zumo\ZumokitBundle\Model\WalletInterface $wallet
      *
      * @return User
      */
+    /*
     public function setWallet(WalletInterface $wallet): UserInterface
     {
         $this->wallet = $wallet;
         return $this;
     }
+    */
 
     /**
      * @return string

@@ -31,15 +31,15 @@ interface UserInterface
      */
     public function getEmail();
 
-    /**
+    /*
      * @return bool
      */
-    public function hasWallet(): bool;
+    //public function hasWallet(): bool;
 
-    /**
+    /*
      * @return mixed
      */
-    public function getWallet(): ?WalletInterface;
+    //public function getWallet(): ?WalletInterface;
 
     /**
      * @return string|int|null

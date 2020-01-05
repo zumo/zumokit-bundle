@@ -72,7 +72,8 @@ class HealthController extends AbstractController
         try {
             $factory    = new RequestFactory($this->app);
             $request = $factory->create(AccountCheckRequest::class);
-            if (($response = $this->sapi->sendRequest($request)) === null) {
+            $response = $this->sapi->sendRequest($request);
+            if ($response === null) {
                 return new JsonResponse(['status' => 'Error', 'message' => 'Integration health check failed.'], 400);
             }
         } catch (\Exception $exception) {

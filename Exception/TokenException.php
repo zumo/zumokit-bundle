@@ -20,4 +20,5 @@ namespace Zumo\ZumokitBundle\Exception;
  * @copyright    2019 DLabs (https://www.dlabs.si)
  */
 class TokenException extends \Exception
-{ }
+{
+}
