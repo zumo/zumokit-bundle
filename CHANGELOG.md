@@ -16,10 +16,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added [Flint CI](https://flintci.io/) configuration file.
 - Added [PHPStan bundle for Symfony](https://github.com/phpstan/phpstan-symfony). [DEV]
 - Added phpunit.xml.dist and modified composer.json for functional tests.
+- Added documentation for Zumokit Bundle integration (Resources/doc/index.md).
 
 ### Changed
 
-- Modified entity models (User, Wallet) due to the added support for multiple wallets per user.
+- Improved User and Wallet entity interfaces. Now we support multiple wallets (crypto accounts) per user.
 
 ## [1.0.6] - 2019-12-20
 

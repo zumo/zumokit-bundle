@@ -214,30 +214,6 @@ class ZumoUser extends User
     }
 
     /**
-     * @return string
-     */
-    public function getIdentityFieldName(): string
-    {
-        // TODO: Implement getIdentityFieldName() method.
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getIdentity()
-    {
-        // TODO: Implement getIdentity() method.
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getDisplayName(): ?string
-    {
-        // TODO: Implement getDisplayName() method.
-    }
-
-    /**
      * @inheritDoc
      */
     public function toArray()

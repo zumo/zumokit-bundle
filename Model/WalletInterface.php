@@ -28,25 +28,95 @@ interface WalletInterface
 
     /**
      * @param mixed $id
-     *
-     * @return WalletInterface
+     * @return self
      */
     public function setId($id);
 
     /**
-     * @return \Zumo\ZumokitBundle\Model\UserInterface|null
+     * @return User
      */
     public function getUser(): ?UserInterface;
 
     /**
+     * @param User|null $user
+     * @return self
+     */
+    public function setUser(?UserInterface $user = null);
+
+    /**
      * @return string|null
      */
-    public function getAddress();
+    public function getAddress(): ?string;
 
     /**
      * @param string $address
-     *
-     * @return \Zumo\ZumokitBundle\Model\WalletInterface
+     * @return self
      */
-    public function setAddress(?string $address = null);
+    public function setAddress(string $address);
+
+    /**
+     * @return string|null
+     */
+    public function getCoin(): ?string;
+
+    /**
+     * @param string $coin
+     * @return self
+     */
+    public function setCoin(string $coin);
+
+    /**
+     * @return string|null
+     */
+    public function getSymbol(): ?string;
+
+    /**
+     * @param string $symbol
+     * @return self
+     */
+    public function setSymbol(string $symbol);
+
+    /**
+     * @return string|null
+     */
+    public function getNetwork(): ?string;
+
+    /**
+     * @param string $network
+     * @return self
+     */
+    public function setNetwork(string $network);
+
+    /**
+     * @return int|null
+     */
+    public function getChainId(): ?int;
+
+    /**
+     * @param int|null $chainId
+     * @return self
+     */
+    public function setChainId(?int $chainId = null);
+
+    /**
+     * @return string|null
+     */
+    public function getPath(): ?string;
+
+    /**
+     * @param string $path
+     * @return self
+     */
+    public function setPath(string $path);
+
+    /**
+     * @return int|null
+     */
+    public function getVersion(): ?int;
+
+    /**
+     * @param integer $version
+     * @return self
+     */
+    public function setVersion(int $version);
 }

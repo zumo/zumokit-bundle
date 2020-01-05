@@ -1,6 +1,6 @@
 <?php
 
-/** -
+/**
  * This file is part of the zumo/zumokit-bundle package.
  *
  * (c) DLabs / Zumo 2019
@@ -13,12 +13,12 @@
 namespace Zumo\ZumokitBundle\Model;
 
 /**
- * ZumoUserTrait represents a model of a user account.
+ * Wallet represents a model of a wallet.
  *
  * @package      Zumo\ZumokitBundle\Model
  * @author       Vladimir Strackovski <vladimir.strackovski@dlabs.si>
  * @copyright    2018 DLabs (https://www.dlabs.si)
  */
-trait UserTrait
+trait WalletTrait
 {
 }

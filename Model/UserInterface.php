@@ -12,6 +12,9 @@
 
 namespace Zumo\ZumokitBundle\Model;
 
+use Doctrine\Common\Collections\Collection;
+use Zumo\ZumokitBundle\Model\WalletInterface;
+
 /**
  * UserInterface represents a model of a user account.
  *
@@ -22,47 +25,21 @@ namespace Zumo\ZumokitBundle\Model;
 interface UserInterface
 {
     /**
-     * @return mixed
+     * @return Collection|Wallet[]
      */
-    public function getId();
+    public function getWallets(): Collection;
 
     /**
-     * @return string
+     * @param EntityInterface $wallet
+     * @return self
      */
-    public function getEmail();
-
-    /*
-     * @return bool
-     */
-    //public function hasWallet(): bool;
-
-    /*
-     * @return mixed
-     */
-    //public function getWallet(): ?WalletInterface;
+    public function addWallet(WalletInterface $wallet);
 
     /**
-     * @return string|int|null
-     */
-    public function getIdentity();
-
-    /**
-     * @return string|null
-     */
-    public function getDisplayName(): ?string;
-
-    /**
-     * Returns an array representation of User's identity, display name and
-     * wallet address fields.
+     * Remove wallet
      *
-     * @return array
+     * @param WalletInterface $wallet
+     * @return self
      */
-    public function toArray();
-
-    /**
-     * Returns base64 encoded concatenation of identity and display name.
-     *
-     * @return string
-     */
-    public function __toString();
+    public function removeWallet(WalletInterface $wallet);
 }
