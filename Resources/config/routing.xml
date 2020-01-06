@@ -16,10 +16,6 @@
     <default key="_controller">zumokit.auth.controller:getZumoKitTokenAction</default>
   </route>
 
-  <route id="zumokit_bundle_map" path="/wallet/map" methods="POST">
-    <default key="_controller">zumokit.auth.controller:mapWalletsAction</default>
-  </route>
-
   <route id="zumokit_bundle_sync" path="/wallet/sync" methods="POST">
     <default key="_controller">zumokit.auth.controller:syncWallets</default>
   </route>

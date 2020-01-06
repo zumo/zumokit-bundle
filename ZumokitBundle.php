@@ -21,4 +21,5 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
  * @author  Vladimir Strackovski <vladimir.strackovski@dlabs.si>
  */
 class ZumokitBundle extends Bundle
-{ }
+{
+}
