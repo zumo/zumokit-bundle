@@ -7,13 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [1.0.8] - 2020-01-06
-
-### Fix
-
-- Fixed constructor parameters on AuthController.
-
-## [1.0.7] - 2020-01-06
+## [1.0.9] - 2020-01-06
 
 ### Added
 
