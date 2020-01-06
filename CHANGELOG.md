@@ -7,6 +7,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.7] - 2020-01-06
+
+### Added
+
+- Added root file for the bundle documentation (Resources/doc/index.rst)
+- Added [Travis CI](https://travis-ci.org/) configuration file .travis.yml.
+- Added [Flint CI](https://flintci.io/) configuration file.
+- Added [PHPStan bundle for Symfony](https://github.com/phpstan/phpstan-symfony). [DEV]
+- Added phpunit.xml.dist and modified composer.json for functional tests.
+- Added documentation for Zumokit Bundle integration (Resources/doc/index.md).
+
+### Changed
+
+- Improved User and Wallet entity interfaces. Now we support multiple wallets (crypto accounts) per user.
+
+### Removed
+
+- Removed excess code.
+
 ## [1.0.6] - 2019-12-20
 
 ### Fixed

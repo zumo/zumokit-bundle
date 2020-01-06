@@ -10,16 +10,15 @@
  * file that was distributed with this source code.
  */
 
-namespace Zumo\ZumokitBundle\Service\Parameter;
-
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBag;
+namespace Zumo\ZumokitBundle\Model;
 
 /**
- * Class Bag
+ * WalletTrait represents a model of a wallet.
  *
- * @package Zumo\ZumokitBundle\Service\Parameter
- * @author  Vladimir Strackovski <vladimir.strackovski@dlabs.si>
+ * @package      Zumo\ZumokitBundle\Model
+ * @author       Vladimir Strackovski <vladimir.strackovski@dlabs.si>
+ * @copyright    2018 DLabs (https://www.dlabs.si)
  */
-class Bag extends ParameterBag
+trait WalletTrait
 {
 }

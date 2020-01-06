@@ -20,4 +20,5 @@ namespace Zumo\ZumokitBundle\Exception;
  * @copyright    2018 DLabs (https://www.dlabs.si)
  */
 class ClientException extends \Exception
-{ }
+{
+}
