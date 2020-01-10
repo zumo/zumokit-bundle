@@ -25,6 +25,11 @@ use Zumo\ZumokitBundle\Model\WalletInterface;
 interface UserInterface
 {
     /**
+     * @return string
+     */
+    public function getId(): string;
+
+    /**
      * @return Collection|WalletInterface[]
      */
     public function getWallets(): Collection;

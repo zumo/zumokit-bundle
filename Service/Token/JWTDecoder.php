@@ -12,7 +12,7 @@
 
 namespace Zumo\ZumokitBundle\Service\Token;
 
-use Zumo\ZumokitBundle\Exception\TokenException;
+use Exception;
 use Lcobucci\JWT;
 
 /**
@@ -46,9 +46,7 @@ class JWTDecoder
     /**
      * @param string $token The token string.
      * @param string $publicKey
-     *
      * @return \Lcobucci\JWT\Token|null
-     * @throws \Zumo\ZumokitBundle\Exception\TokenException
      */
     public function decode(string $token, string $publicKey): ?JWT\Token
     {
@@ -63,35 +61,30 @@ class JWTDecoder
     /**
      * @param \Lcobucci\JWT\Token $parsed
      * @param string              $publicKey
-     *
-     * @throws \Zumo\ZumokitBundle\Exception\TokenException
+     * @throws Exception
      */
     private function verifyParsedToken(JWT\Token $parsed, string $publicKey): void
     {
         $signer   = new JWT\Signer\Rsa\Sha256();
         $key = new JWT\Signer\Key('file://' . $publicKey);
 
-        if ($parsed->verify($signer, $key)) {
-            return;
+        if (!$parsed->verify($signer, $key)) {
+            throw new Exception('Token signature is not valid.');
         }
-
-        throw new TokenException('Token signature is not valid.');
     }
 
     /**
      * @param \Lcobucci\JWT\Token $parsed
-     *
-     * @throws \Zumo\ZumokitBundle\Exception\TokenException
+     * @throws Exception
      */
     private function validateParsedToken(JWT\Token $parsed): void
     {
         $validation = new JWT\ValidationData();
         $validation->setCurrentTime(time());
 
-        if ($parsed->validate($validation)) {
-            return;
+        if (!$parsed->validate($validation)) {
+            throw new Exception('Token is expired or otherwise invalid.');
         }
-        throw new TokenException('Token is expired or otherwise invalid.');
     }
 
     /**

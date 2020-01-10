@@ -12,7 +12,6 @@
 
 namespace Zumo\ZumokitBundle\Service\EventHandler;
 
-use Zumo\ZumokitBundle\Exception\LoginHandlerException;
 use Zumo\ZumokitBundle\Model\UserInterface;
 use Zumo\ZumokitBundle\Model\ZumoApp;
 use Zumo\ZumokitBundle\Security\Token\JWTEncoder;
@@ -23,6 +22,7 @@ use Lexik\Bundle\JWTAuthenticationBundle\Event\JWTCreatedEvent;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\Event;
+use Exception;
 
 //use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -80,9 +80,7 @@ class LoginSuccessHandler
      *
      * @param Event A generic event type supported by the framework, that
      *              is dispatched on authentication success.
-     *
      * @return null
-     * @throws \Zumo\ZumokitBundle\Exception\LoginHandlerException
      */
     public function handle($event)
     {
@@ -106,15 +104,13 @@ class LoginSuccessHandler
      * to create one.
      *
      * @param \Lexik\Bundle\JWTAuthenticationBundle\Event\JWTCreatedEvent $event
-     *
      * @return \Psr\Http\Message\ResponseInterface|null
-     * @throws \Zumo\ZumokitBundle\Exception\LoginHandlerException
      */
     protected function handleAuthenticationSuccessEvent($event): ?ResponseInterface
     {
         if (!($event->getUser() instanceof UserInterface)) {
             $this->logger->critical('Expected event\'s user to be an instance of UserInterface.');
-            throw new LoginHandlerException('Expected event\'s user to be an instance of UserInterface.');
+            throw new Exception('Expected event\'s user to be an instance of UserInterface.');
         }
 
         try {

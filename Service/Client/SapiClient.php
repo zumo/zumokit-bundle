@@ -12,12 +12,12 @@
 
 namespace Zumo\ZumokitBundle\Service\Client;
 
-use Zumo\ZumokitBundle\Exception\ClientException;
 use Zumo\ZumokitBundle\Exception\SapiResponseException;
 use Zumo\ZumokitBundle\Service\Request\SAPI\AccountCheckRequest;
 use Zumo\ZumokitBundle\Service\Request\SAPI\AccountPushRequest;
 use Zumo\ZumokitBundle\Service\Request\SAPI\AccessTokenRequest;
 use Zumo\ZumokitBundle\Service\Request\SAPI\SapiRequest;
+use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\ConnectException;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Exception\ServerException;
@@ -102,7 +102,7 @@ class SapiClient
      * @param null $accountId
      *
      * @return \Psr\Http\Message\ResponseInterface
-     * @throws \Zumo\ZumokitBundle\Exception\SapiResponseException
+     * @throws SapiResponseException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function getAccessToken($accountId = null): ResponseInterface
@@ -116,7 +116,7 @@ class SapiClient
      * @param null $accountId
      *
      * @return \Psr\Http\Message\ResponseInterface
-     * @throws \Zumo\ZumokitBundle\Exception\SapiResponseException
+     * @throws SapiResponseException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function checkAccount($accountId = null): ResponseInterface
@@ -130,7 +130,7 @@ class SapiClient
      * @param null $accountId
      *
      * @return \Psr\Http\Message\ResponseInterface
-     * @throws \Zumo\ZumokitBundle\Exception\SapiResponseException
+     * @throws SapiResponseException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function pushAccount($accountId = null): ResponseInterface
@@ -144,7 +144,7 @@ class SapiClient
      * @param \Zumo\ZumokitBundle\Service\Request\SAPI\SapiRequest
      *
      * @return \Psr\Http\Message\ResponseInterface
-     * @throws \Zumo\ZumokitBundle\Exception\SapiResponseException
+     * @throws SapiResponseException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function sendRequest(SapiRequest $request): ResponseInterface
@@ -178,9 +178,8 @@ class SapiClient
      * Decodes the body of the specified response. Supports JSON only,
      *
      * @param \Psr\Http\Message\ResponseInterface $response
-     *
+     * @throws Exception
      * @return array
-     * @throws \Zumo\ZumokitBundle\Exception\SapiResponseException
      */
     private function decodeResponse(ResponseInterface $response): array
     {
