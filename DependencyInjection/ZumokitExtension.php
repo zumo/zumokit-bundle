@@ -94,6 +94,6 @@ class ZumokitExtension extends Extension
      */
     public function getNamespace()
     {
-        return 'http://zumopay.com/schema/dic/zumokit';
+        return 'http://zumo.money/schema/dic/zumokit-bundle';
     }
 }

@@ -12,7 +12,7 @@
 
 namespace Zumo\ZumokitBundle\Controller;
 
-use Zumo\ZumokitBundle\Exception\AuthenticationRequestException;
+use Exception;
 use Zumo\ZumokitBundle\Model\ZumoApp;
 use Zumo\ZumokitBundle\Service\Client\SapiClient;
 use Zumo\ZumokitBundle\Security\Token\JWTEncoder;
@@ -101,9 +101,10 @@ class AuthController extends AbstractController
      *
      * @param Request            $request
      * @param UserInterface|null $user
-     *
-     * @return JsonResponse
+     * @throws Exception if user object is not valid
+     * @throws Exception API key is missing
      * @throws \GuzzleHttp\Exception\GuzzleException
+     * @return JsonResponse
      */
     public function getZumoKitTokenAction(Request $request, UserInterface $user): JsonResponse
     {
@@ -115,13 +116,13 @@ class AuthController extends AbstractController
                 !($user instanceof UserInterface) ||
                 !method_exists($user, 'getId')
             ) {
-                throw new AuthenticationRequestException("Invalid user object received.");
+                throw new Exception("Invalid user object received.");
             }
 
             if (!($request->headers->has('api-key'))) {
-                throw new AuthenticationRequestException("Missing API KEY.");
+                throw new Exception("Missing API KEY.");
             }
-        } catch (AuthenticationRequestException $exception) {
+        } catch (Exception $exception) {
             $this->logger->critical(sprintf("Unable to process request, error: %s", $exception->getMessage()));
             return new JsonResponse(['error' => 'Unauthorized', 'message' => 'Exception occured.'], 401);
         }
@@ -156,16 +157,19 @@ class AuthController extends AbstractController
     public function syncWallets(Request $request)
     {
         // Decoded request payload is expected to have the following structure:
-        // [{"id":"user's iid", "accounts": [{"chainId":"", "address":"", "coin":"", "symbol":"", "path":""}]}]
+        // [{"id":"ID of the user", "accounts": [{"chainId":"", "address":"", "coin":"", "symbol":"", "path":""}]}]
 
-        $walletRepository = $this->getDoctrine()->getRepository(Wallet::class);
-        $em = $this->getDoctrine()->getManager();
+        $doctrine = $this->getDoctrine();
+        $em = $doctrine->getManager();
+        $userRepository = $doctrine->getRepository(User::class);
+        $walletRepository = $doctrine->getRepository(Wallet::class);
 
         // Decode request payload to array.
         $payload = json_decode($request->getContent(), true);
 
         // Iterate each payload item.
         $successItems = [];
+        $numOfAccounts = 0;
         foreach ($payload as $item) {
             // Check if topmost required keys exist in array.
             if (!array_key_exists('id', $item) || !array_key_exists('accounts', $item)) {
@@ -175,64 +179,40 @@ class AuthController extends AbstractController
 
             $appUserId = $item['id'];
 
-            // Skip if ID is not provided or not in UUID format.
-            if (is_null($appUserId) || is_int($appUserId)) {
-                $this->logger->critical('Invalid ID.');
-                continue;
-            }
-
             // Search for user in database
-            $userRepository = $this->getDoctrine()->getRepository(User::class);
             $userObj = $userRepository->findOneBy(['id' => $appUserId]);
 
-            // Check if retrieved object is of correct type
-            if (get_class($userObj) !== 'App\Entity\User') {
-                $this->logger->critical('user obj is not of type App\Entity\User.');
+            // Check if user exist
+            if (empty($userObj)) {
+                $this->logger->critical(sprintf('User not %s found', $appUserId));
                 continue;
             }
 
-            // Check if user has a wallet getter
-            if (!method_exists($userObj, 'getWallet') || !method_exists($userObj, 'setWallet')) {
-                $this->logger->critical('user obj does not have wallet methods.');
-                continue;
-            }
-
-            // Skip item if user already has wallet associated
-            if (!is_null($userObj->getWallet())) {
-                $this->logger->critical('user obj already has a wallet associated.');
-                continue;
-            }
-
-            // Iterate and get first account, its address and create a new local Wallet
+            // Iterate and get first account, its address and create new or update existing wallet account
             foreach ($item['accounts'] as $account) {
                 try {
 
                     // Check if wallet already exist
-                    $wallet = $walletRepository->findOneBy(['address' => $account['address']]); // , 'user' => $userObj->getId()
-                    if (!empty($wallet)) {
-                        // Update existing wallet
-                        $wallet->setCoin($account['coin']);
-                        $wallet->setSymbol($account['symbol']);
-                        $wallet->setNetwork($account['network']);
-                        $wallet->setChainId($account['chainId']);
-                        $wallet->setPath($account['path']);
-                        $wallet->setVersion($account['version']);
-                        $wallet->setUser($userObj);
-                        $em->flush();
-                    } else {
-                        // Create new wallet
+                    $wallet = $walletRepository->findOneBy(['user' => $userObj->getId(), 'address' => $account['address']]); // ,
+
+                    // Create new wallet if it does not exist
+                    if (empty($wallet)) {
                         $wallet = new Wallet();
                         $wallet->setAddress($account['address']);
-                        $wallet->setCoin($account['coin']);
-                        $wallet->setSymbol($account['symbol']);
-                        $wallet->setNetwork($account['network']);
-                        $wallet->setChainId($account['chainId']);
-                        $wallet->setPath($account['path']);
-                        $wallet->setVersion($account['version']);
                         $wallet->setUser($userObj);
-                        $em->persist($wallet);
-                        $em->flush();
                     }
+
+                    if (!empty($account['coin'])) $wallet->setCoin($account['coin']);
+                    if (!empty($account['symbol'])) $wallet->setSymbol($account['symbol']);
+                    if (!empty($account['network'])) $wallet->setNetwork($account['network']);
+                    if (!empty($account['chainId'])) $wallet->setChainId($account['chainId']);
+                    if (!empty($account['path'])) $wallet->setPath($account['path']);
+                    if (!empty($account['version'])) $wallet->setVersion($account['version']);
+
+                    $em->persist($wallet);
+                    $em->flush();
+
+                    $numOfAccounts++;
                 } catch (\Exception $exception) {
                     $this->logger->critical(sprintf('Failed to create wallet account for user %s, data: %s . Message: %s ', $userObj->getId(), json_encode($account), $exception->getMessage()));
                 }
@@ -240,6 +220,8 @@ class AuthController extends AbstractController
 
             $successItems[] = $item;
         }
+
+        $this->logger->info(sprintf('Synchronised %s accounts of %s users.', $numOfAccounts, count($successItems)));
 
         return new JsonResponse($successItems, 200);
     }

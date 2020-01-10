@@ -12,8 +12,7 @@
 
 namespace Zumo\ZumokitBundle\Service\Request\Validator;
 
-use Zumo\ZumokitBundle\Exception\AuthenticationRequestException;
-use Zumo\ZumokitBundle\Exception\TokenException;
+use Exception;
 use Zumo\ZumokitBundle\Model\ZumoApp;
 use Zumo\ZumokitBundle\Service\Token\Extractor\BearerExtractor;
 use Zumo\ZumokitBundle\Service\Token\JWTDecoder;
@@ -64,19 +63,18 @@ class RequestValidator
      * public key.
      *
      * @param \Symfony\Component\HttpFoundation\Request $request
-     *
+     * @throws Exception if authentication token is missing
+     * @throws Exception if authentication token is invalid
      * @return \Lcobucci\JWT\Token
-     * @throws \Zumo\ZumokitBundle\Exception\TokenException
-     * @throws \Zumo\ZumokitBundle\Exception\AuthenticationRequestException
      */
     public function validate(Request $request): Token
     {
         if (!$request->headers->get('authorization')) {
-            throw new AuthenticationRequestException('Missing authentication token.');
+            throw new Exception('Missing authentication token.');
         }
 
         if (($tokenString = BearerExtractor::extract($request)) === null) {
-            throw new TokenException('Token is empty.');
+            throw new Exception('Token is empty.');
         }
 
         return $this->decoder->decode($tokenString, $this->publicKey);

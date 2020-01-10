@@ -10,15 +10,9 @@
  * file that was distributed with this source code.
  */
 
-namespace Zumo\ZumokitBundle\Exception;
-
-/**
- * Class ClientException
- *
- * @package      Zumo\ZumokitBundle\Exception
- * @author       Vladimir Strackovski <vladimir.strackovski@dlabs.si>
- * @copyright    2018 DLabs (https://www.dlabs.si)
- */
-class ClientException extends \Exception
-{
+if (file_exists($file = __DIR__.'/../vendor/autoload.php')) {
+    $autoload = require_once $file;
+} else {
+    throw new RuntimeException('Install dependencies using Composer, to be able to run test suite.');
 }
+return $autoload;

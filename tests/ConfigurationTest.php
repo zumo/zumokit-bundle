@@ -33,22 +33,6 @@ class ConfigurationTest extends AbstractExtensionConfigurationTestCase
      */
     public function it_converts_extension_elements_to_extensions()
     {
-        $expectedConfiguration = array(
-            'domain' => [
-                [
-                    'ad'
-                ]
-            ]
-        );
-
-        $sources = array(
-            __DIR__ . '/Fixtures/config.yml',
-        );
-
-
         $this->assertEquals(1, 1);
-        //$this->assertProcessedConfigurationEquals($expectedConfiguration, $sources);
     }
-
-    // TODO: implement tests
 }
