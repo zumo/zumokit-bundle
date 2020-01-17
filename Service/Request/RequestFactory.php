@@ -64,10 +64,12 @@ class RequestFactory
         $account_id = $this->accountId;
 
         // Require https:// prefix in the URL
+        /*
         preg_match('/^https:\/\//', $api_url, $matches);
         if (empty($matches)) {
             $api_url = "https://" . $api_url;
         }
+        */
 
         /** @var SapiRequest $request */
         $request = new $className($api_url, $api_key, $account_id);
