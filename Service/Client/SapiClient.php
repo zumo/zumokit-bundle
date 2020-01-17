@@ -79,10 +79,12 @@ class SapiClient
         \Psr\Log\LoggerInterface $logger
     ) {
         // Require https:// URL prefix
+        /*
         preg_match('/^https:\/\//', $baseUri, $matches);
         if (empty($matches)) {
             $baseUri = "https://" . $baseUri;
         }
+        */
 
         $this->baseUri = $baseUri;
 
