@@ -170,7 +170,7 @@ class AuthController extends AbstractController
         // Iterate each payload item.
         $successItems = [];
         $numOfAccounts = 0;
-        foreach ($payload as $item) {
+        if (is_array($payload)) foreach ($payload as $item) {
             // Check if topmost required keys exist in array.
             if (!array_key_exists('id', $item) || !array_key_exists('accounts', $item)) {
                 $this->logger->critical('Missing id/accounts key(s).');
