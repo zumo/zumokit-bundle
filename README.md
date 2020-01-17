@@ -2,7 +2,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue?style=flat-square)](LICENSE)
 
-Symfony bundle for Zumo's ZumoKit service. This repository contains code for integration into application based on Symfony 4.x or newer.
+ZumoKit bundle facilitates integration of the Zumo platform with server-side software based on Symfony.
 
 > Please note, during Zumo's alpha and beta period, the API is subject to change and may impact bundle.
 

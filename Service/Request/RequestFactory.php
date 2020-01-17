@@ -59,8 +59,18 @@ class RequestFactory
             throw new \RuntimeException('Invalid argument: class does not exist.');
         }
 
+        $api_url = $this->app->getApiUrl();
+        $api_key = $this->app->getApiKey();
+        $account_id = $this->accountId;
+
+        // Require https:// prefix in the URL
+        preg_match('/^https:\/\//', $api_url, $matches);
+        if (empty($matches)) {
+            $api_url = "https://" . $api_url;
+        }
+
         /** @var SapiRequest $request */
-        $request = new $className($this->app->getApiUrl(), $this->app->getApiKey(), $this->accountId);
+        $request = new $className($api_url, $api_key, $account_id);
 
         if (!($request instanceof SapiRequest)) {
             throw new \Exception('Invalid argument: unsupported class.');
@@ -97,7 +107,6 @@ class RequestFactory
                 }
             }
         }
-
         return $request;
     }
 }

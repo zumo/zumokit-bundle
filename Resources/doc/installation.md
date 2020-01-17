@@ -2,21 +2,21 @@
 
 ## Installation
 
-Install the latest stable version of the ZumoKit Bundle via Composer:
+Open a command console, enter your project directory and execute the following command to download the latest stable version of this bundle:
 
 ```bash
 composer require zumo/zumokit-bundle
 ```
 
-This will choose the best version for your project, add it to composer.json and download its code into the vendor/ directory. If you need a specific version, include it as the second argument of the composer require command:
+This command requires you to have Composer installed globally, as explained in the [installation chapter](https://getcomposer.org/doc/00-intro.md) of the Composer documentation.
+
+If you need a specific version, include it as the second argument of the composer require command:
 
 ```bash
 composer require zumo/zumokit-bundle "~1.0"
 ```
 
-### If yor application is not based on Symfony Flex
-
-If your application is not based on Symfony Flex you need to manually enable bundle by adding it to the list of registered bundles in `config/bundles.php`.
+> In a default Symfony application that uses Symfony Flex, bundles are enabled/disabled automatically for you when installing/removing them. In case you are not using Symfony Flex you need to look at or edit `config/bundles.php` file.
 
 ```php
 return [

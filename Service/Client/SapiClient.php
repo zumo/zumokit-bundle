@@ -78,12 +78,13 @@ class SapiClient
         \Zumo\ZumokitBundle\Model\AppCredentials $appCredentials,
         \Psr\Log\LoggerInterface $logger
     ) {
+        // Require https:// URL prefix
         preg_match('/^https:\/\//', $baseUri, $matches);
         if (empty($matches)) {
-            $this->baseUri = "https://" . $baseUri;
-        } else {
-            $this->baseUri = $baseUri;
+            $baseUri = "https://" . $baseUri;
         }
+
+        $this->baseUri = $baseUri;
 
         $this->clientCredentials = $clientCredentials;
         $this->appCredentials = $appCredentials;

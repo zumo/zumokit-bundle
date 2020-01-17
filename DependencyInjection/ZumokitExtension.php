@@ -51,12 +51,8 @@ class ZumokitExtension extends Extension
         $container->setParameter('zumokit.api_url', $config['api_url']);
         $container->setParameter('zumokit.domains', $config['domains']);
         $container->setParameter('zumokit.primary_domain', $config['primary_domain']);
-        $container->setParameter('zumokit.metadata', $config['metadata']);
-        $container->setParameter('zumokit.metadata.enable', $config['metadata']['enable']);
-        $container->setParameter('zumokit.metadata.id', $config['metadata']['id']);
-        $container->setParameter('zumokit.metadata.secret', $config['metadata']['secret']);
-        $container->setParameter('zumokit.metadata.endpoint_url', $config['metadata']['endpoint_url']);
-        $container->setParameter('zumokit.metadata.root', $config['metadata']['root']);
+        $container->setParameter('zumokit.logging', $config['logging']);
+
         $container->setParameter('zumokit.security', $config['security']);
         $container->setParameter('zumokit.security.verify_ssl', $config['security']['verify_ssl']);
         $container->setParameter('zumokit.security.user_class', $config['security']['user_class']);
@@ -69,11 +65,11 @@ class ZumokitExtension extends Extension
         $container->setParameter('zumokit.security.jwt.shared_key', $config['security']['jwt']['shared_key']);
         $container->setParameter('zumokit.security.jwt.shared_secret', $config['security']['jwt']['shared_secret']);
         $container->setParameter('zumokit.security.jwt.keyset', $config['security']['jwt']['keyset']);
-        $container->setParameter('zumokit.security.jwt.well_known_url', $config['security']['jwt']['well_known_url']);
+
         $container->setParameter('zumokit.user_registration', $config['user_registration']);
         $container->setParameter('zumokit.user_registration.enable', $config['user_registration']['enable']);
         $container->setParameter('zumokit.user_registration.event', $config['user_registration']['event']);
-        $container->setParameter('zumokit.logging', $config['logging']);
+
         $definition = $container->getDefinition('zumokit.login_subscriber');
         $definition->addTag('kernel.event_subscriber');
         $definition = $container->getDefinition('zumokit.sapi_client');

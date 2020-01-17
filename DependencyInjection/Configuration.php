@@ -64,7 +64,6 @@ class Configuration implements ConfigurationInterface
 
         $this->addUserRegistration($rootNode);
         $this->addSecurity($rootNode);
-        $this->addMetadata($rootNode);
         $this->addDomains($rootNode);
         $this->addLogDestinations($rootNode);
 
@@ -119,10 +118,6 @@ class Configuration implements ConfigurationInterface
             ->defaultValue('...')
             ->cannotBeEmpty()
             ->end()
-            ->scalarNode('well_known_url')
-            ->defaultValue('...')
-            ->cannotBeEmpty()
-            ->end()
             ->scalarNode('keyset')
             ->defaultValue('...')
             ->cannotBeEmpty()
@@ -152,41 +147,6 @@ class Configuration implements ConfigurationInterface
             ->end()
             ->scalarNode('event')
             ->defaultValue('The event FQ class name to handle.')
-            ->cannotBeEmpty()
-            ->end()
-            ->end()
-            ->end()
-            ->end()
-        ;
-    }
-
-    /**
-     * @param ArrayNodeDefinition $rootNode
-     */
-    public function addMetadata(ArrayNodeDefinition $rootNode)
-    {
-        $rootNode
-            ->children()
-            ->arrayNode('metadata')
-            ->addDefaultsIfNotSet()
-            ->children()
-            ->booleanNode('enable')
-            ->defaultTrue()
-            ->end()
-            ->scalarNode('id')
-            ->defaultValue('')
-            ->cannotBeEmpty()
-            ->end()
-            ->scalarNode('secret')
-            ->defaultValue('asd')
-            ->cannotBeEmpty()
-            ->end()
-            ->scalarNode('endpoint_url')
-            ->defaultValue('/m/api/machine/ID/metadata.enc')
-            ->cannotBeEmpty()
-            ->end()
-            ->scalarNode('root')
-            ->defaultValue('/var/')
             ->cannotBeEmpty()
             ->end()
             ->end()

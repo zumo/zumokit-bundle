@@ -57,11 +57,6 @@ class ZumoApp
     private $primaryDomain;
 
     /**
-     * @var array
-     */
-    private $machineMetadata;
-
-    /**
      * @var string
      */
     private $userClass;
@@ -290,14 +285,6 @@ class ZumoApp
     public function getPrimaryDomain(): string
     {
         return $this->primaryDomain;
-    }
-
-    /**
-     * @return array
-     */
-    public function getMachineMetadata(): array
-    {
-        return $this->machineMetadata;
     }
 
     /**
