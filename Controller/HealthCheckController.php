@@ -12,6 +12,8 @@
 
 namespace Zumo\ZumokitBundle\Controller;
 
+use Zumo\ZumokitBundle\Service\Client\ZumokitApiClient;
+
 use Zumo\ZumokitBundle\Model\ZumoApp;
 use Zumo\ZumokitBundle\Service\Client\SapiClient;
 use Zumo\ZumokitBundle\Service\Request\RequestFactory;
@@ -28,12 +30,22 @@ use Psr\Log\LoggerInterface;
  * @author       Vladimir Strackovski <vladimir.strackovski@dlabs.si>
  * @copyright    2019 DLabs (https://www.dlabs.si)
  */
-class HealthController extends AbstractController
+class HealthCheckController extends AbstractController
 {
     /**
-     * @var \Zumo\ZumokitBundle\Model\ZumoApp
+     * @var ZumokitApiClient
+     */
+    protected $zumokitApiClient;
+
+    /**
+     * @var ZumoApp
      */
     protected $app;
+
+    /**
+     * @var SapiClient
+     */
+    private $sapi;
 
     /**
      * @var LoggerInterface
@@ -41,34 +53,30 @@ class HealthController extends AbstractController
     protected $logger;
 
     /**
-     * @var \Zumo\ZumokitBundle\Service\Client\SapiClient
-     */
-    private $sapi;
-
-    /**
      * HealthController constructor.
      *
-     * @param \Zumo\ZumokitBundle\Model\ZumoApp             $app
-     * @param \Zumo\ZumokitBundle\Service\Client\SapiClient $sapi
-     * @param \Psr\Log\LoggerInterface                           $logger
+     * @param ZumoApp $app
+     * @param SapiClient $sapi
+     * @param LoggerInterface $logger
      */
-    public function __construct(ZumoApp $app, SapiClient $sapi, LoggerInterface $logger)
+    public function __construct(ZumokitApiClient $zumokitApiClient, ZumoApp $app, SapiClient $sapi, LoggerInterface $logger)
     {
+        $this->zumokitApiClient = $zumokitApiClient;
         $this->app    = $app;
         $this->sapi   = $sapi;
         $this->logger = $logger;
     }
 
     /**
-     * Healthcheck action allows integration status retrieval.
+     * Integration healthcheck.
      *
      * @param Request $request
-     *
      * @return JsonResponse
-     * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function healthCheckAction(Request $request): JsonResponse
+    public function integrationHealthCheck(Request $request): JsonResponse
     {
+        $data = $this->zumokitApiClient->integrationHealthcheck();
+
         try {
             $factory    = new RequestFactory($this->app);
             $request = $factory->create(AccountCheckRequest::class);
@@ -83,4 +91,11 @@ class HealthController extends AbstractController
 
         return new JsonResponse(['status' => 'OK', 'message' => "Integration health check passed."], 200);
     }
+
+    /**
+     * Callback for integration healthcheck.
+     */
+     public function integrationHealthCheckCallback() {
+        return new JsonResponse(['status' => 'OK'], 200);
+     }
 }

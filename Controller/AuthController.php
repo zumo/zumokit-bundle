@@ -14,6 +14,7 @@ namespace Zumo\ZumokitBundle\Controller;
 
 use Exception;
 use Zumo\ZumokitBundle\Model\ZumoApp;
+use Zumo\ZumokitBundle\Service\Client\ZumokitApiClient;
 use Zumo\ZumokitBundle\Service\Client\SapiClient;
 use Zumo\ZumokitBundle\Security\Token\JWTEncoder;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -42,17 +43,22 @@ class AuthController extends AbstractController
     protected $logger;
 
     /**
-     * @var \Zumo\ZumokitBundle\Model\ZumoApp
+     * @var ZumoApp
      */
     private $app;
 
     /**
-     * @var \Zumo\ZumokitBundle\Service\Client\SapiClient
+     * @var SapiClient
      */
     private $sapi;
 
     /**
-     * @var \Zumo\ZumokitBundle\Security\Token\JWTEncoder
+     * @var ZumokitApiClient
+     */
+    private $zumokitApiClient;
+
+    /**
+     * @var JWTEncoder
      */
     private $tokenEncoder;
 
@@ -69,16 +75,17 @@ class AuthController extends AbstractController
     /**
      * AuthController constructor.
      *
-     * @param \Zumo\ZumokitBundle\Model\ZumoApp                 $app
-     * @param \Zumo\ZumokitBundle\Service\Client\SapiClient     $sapi
-     * @param \Zumo\ZumokitBundle\Security\Token\JWTEncoder $encoder
-     * @param RequestValidator                                  $validator
-     * @param \Psr\Log\LoggerInterface                          $logger
-     * @param UserRepository                                    $repository
+     * @param ZumoApp                   $app
+     * @param SapiClient                $sapi
+     * @param JWTEncoder                $encoder
+     * @param RequestValidator          $validator
+     * @param LoggerInterface           $logger
+     * @param UserRepository            $repository
      */
     public function __construct(
         ZumoApp $app,
         SapiClient $sapi,
+        ZumokitApiClient $zumokitApiClient,
         JWTEncoder $encoder,
         RequestValidator $validator,
         LoggerInterface $logger,
@@ -86,6 +93,7 @@ class AuthController extends AbstractController
     ) {
         $this->app = $app;
         $this->sapi = $sapi;
+        $this->zumokitApiClient = $zumokitApiClient;
         $this->tokenEncoder = $encoder;
         $this->validator = $validator;
         $this->logger = $logger;
@@ -103,11 +111,26 @@ class AuthController extends AbstractController
      * @param UserInterface|null $user
      * @throws Exception if user object is not valid
      * @throws Exception API key is missing
-     * @throws \GuzzleHttp\Exception\GuzzleException
      * @return JsonResponse
      */
-    public function getZumoKitTokenAction(Request $request, UserInterface $user): JsonResponse
+    public function getZumokitToken(Request $request, UserInterface $userProvidedByAuthorizationToken): JsonResponse
     {
+        $appUserId = $userProvidedByAuthorizationToken->getId();
+
+        $doctrine = $this->getDoctrine();
+        $userRepository = $doctrine->getRepository(User::class);
+        $user = $userRepository->findOneBy(['id' => $appUserId]);
+
+        // Check if user exist
+        if (empty($user)) {
+            $this->logger->critical(sprintf('User %s not found.', $appUserId));
+            throw new Exception('User not found.');
+        }
+
+        $result = $this->zumokitApiClient->getToken($user);
+        return new JsonResponse($result, 200, [], true);
+
+        /*
         try {
             if (
                 // Here we check only if the user entity has a getter for ID property.
@@ -147,12 +170,12 @@ class AuthController extends AbstractController
         }
 
         return new JsonResponse($response->getBody(), 200, [], true);
+        */
     }
 
     /**
-     * @param \Symfony\Component\HttpFoundation\Request $request
-     *
-     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     * @param Request $request
+     * @return JsonResponse
      */
     public function syncWallets(Request $request)
     {
