@@ -107,7 +107,6 @@ class ZumokitApiClient
     public function getToken(UserInterface $user) {
         try {
             $headers = array_merge($this->headers, ['account-id' => (string)$user->getId()]);
-            $headers = array_merge($this->headers, ['api-key' => 'ffa48c3d8f19a2205b9f14a3b4c71a116594a56ac0d283a27facaf4fcb301930', 'account-id' => '2e7644c5-2971-493c-9c13-173ccead66f4']); // Temporary
             $response = $this->client->post(self::PATH__GET_TOKEN, ['headers' => $headers, 'query' => []]);
         } catch (ClientException $e) {
             $this->logger->info(sprintf('Zumokit API client request failed | %s | %s', Psr7\str($e->getRequest()), Psr7\str($e->getResponse())));

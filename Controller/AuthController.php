@@ -129,48 +129,6 @@ class AuthController extends AbstractController
 
         $result = $this->zumokitApiClient->getToken($user);
         return new JsonResponse($result, 200, [], true);
-
-        /*
-        try {
-            if (
-                // Here we check only if the user entity has a getter for ID property.
-                // Any symfony implementation will have a username and id, so this is
-                // just a precaution.
-                !($user instanceof UserInterface) ||
-                !method_exists($user, 'getId')
-            ) {
-                throw new Exception("Invalid user object received.");
-            }
-
-            if (!($request->headers->has('api-key'))) {
-                throw new Exception("Missing API KEY.");
-            }
-        } catch (Exception $exception) {
-            $this->logger->critical(sprintf("Unable to process request, error: %s", $exception->getMessage()));
-            return new JsonResponse(['error' => 'Unauthorized', 'message' => 'Exception occured.'], 401);
-        }
-
-        try {
-            $client = new \GuzzleHttp\Client(["base_uri" => $this->sapi->getBaseUri()]);
-            $headers = [
-                'account-id' => (string) $user->getId(),
-                'api-key'    => $this->app->getApiKey(),
-            ];
-
-            $request = new \GuzzleHttp\Psr7\Request(
-                "POST",
-                sprintf('%s/sapi/authentication/token', $this->sapi->getBaseUri()),
-                $headers
-            );
-
-            $response = $client->send($request);
-        } catch (\Exception $exception) {
-            $this->logger->critical(sprintf("Unable to process request, error: %s", $exception->getMessage()));
-            return new JsonResponse(['error' => 'Unauthorized'], 401);
-        }
-
-        return new JsonResponse($response->getBody(), 200, [], true);
-        */
     }
 
     /**
