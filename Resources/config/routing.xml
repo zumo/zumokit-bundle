@@ -13,14 +13,18 @@
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://symfony.com/schema/routing http://symfony.com/schema/routing/routing-1.0.xsd">
 
   <route id="zumokit_bundle_pre_auth" path="/wallet/preauth" methods="POST">
-    <default key="_controller">zumokit.auth.controller:getZumoKitTokenAction</default>
+    <default key="_controller">zumokit.auth.controller:getZumokitToken</default>
   </route>
 
   <route id="zumokit_bundle_sync" path="/wallet/sync" methods="POST">
     <default key="_controller">zumokit.auth.controller:syncWallets</default>
   </route>
 
-  <route id="zumokit_bundle_health_check" path="/wallet/healthcheck" methods="GET">
-    <default key="_controller">zumokit.health.controller:healthCheckAction</default>
+  <route id="zumokit_bundle_health_check" path="/wallet/integration/healthcheck" methods="GET">
+    <default key="_controller">zumokit.health.controller:integrationHealthCheck</default>
+  </route>
+
+  <route id="zumokit_bundle_health_check" path="/wallet/integration/healthcheck-callback" methods="GET">
+    <default key="_controller">zumokit.health.controller:integrationHealthCheckCallback</default>
   </route>
 </routes>
