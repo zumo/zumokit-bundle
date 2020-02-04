@@ -188,7 +188,11 @@ authenticate users by issuing and validating JWT tokens. The bundle will hook up
 The recommended way to get JWT support to your Symfony backend is to use the Lexik JWT Authentication Bundle for
 Symfony (`lexik/jwt-authentication-bundle`, tested with version 2.6).
 
-## Verifying that integration works
+## Integration healthcheck
+
+The health of the API determine availability of the application.
+
+
 
 The Healthcheck endpoint allows clients to check the status of the integration with ZumoKit. To use this endpoint, make the following request:
 

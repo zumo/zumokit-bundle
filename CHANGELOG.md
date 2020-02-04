@@ -7,9 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- New Zumokit API client.
+
 ### Changed
 
 - Updated documentation.
+- AuthController and HealthCheckController now useuses new Zumokit API client.
 
 ### Removed
 
