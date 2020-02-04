@@ -5,11 +5,14 @@ namespace Zumo\ZumokitBundle\Service\Client;
 use Zumo\ZumokitBundle\Model\ZumoApp;
 use Zumo\ZumokitBundle\Model\UserInterface;
 
+use Exception;
+use Symfony\Component\HttpFoundation\Response as SymResponse;
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7;
 use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\RequestOptions;
+use GuzzleHttp\Psr7\Response;
 use Psr\Http\Message\ResponseInterface;
-use Symfony\Component\HttpFoundation\Response;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -19,8 +22,10 @@ use Psr\Log\LoggerInterface;
 class ZumokitApiClient
 {
     const API_VERSION = '1.0.0';
+    const LOG_TAG = 'Zumokit API client';
 
     const PATH__HEALTHCHECK = '/api/v1/client-api/healthcheck';
+    const PATH__CHECK_ACCOUNT = '/sapi/accounts/check';
     const PATH__GET_TOKEN = '/sapi/authentication/token';
 
     /**
@@ -39,6 +44,10 @@ class ZumokitApiClient
      */
     protected $headers;
 
+    /**
+     * @param ZumoApp $zumoApp
+     * @param LoggerInterface $logger
+     */
     public function __construct(ZumoApp $zumoApp, LoggerInterface $logger)
     {
         $this->zumoApp = $zumoApp;
@@ -62,61 +71,105 @@ class ZumokitApiClient
             'allow_redirects' => false,
             'http_errors' => false
         ];
+
         $this->headers = [
             'Content-Type' => 'application/json',
             'Accept-Version' => self::API_VERSION,
             'app-id' => $this->zumoApp->getId(),
             'api-key' => $this->zumoApp->getApiKey()
         ];
+
         $this->client = new Client($config);
     }
 
-    /**
-     * @param ResponseInterface $response
-     * @return stdClass|int
-     */
-    protected function processResponseData(ResponseInterface $response)
+    protected function get(string $path, array $headers, array $parameters = []): Response
     {
-        $status_code = $response->getStatusCode();
-        $json_data = $response->getBody()->getContents();
+        $merged_headers = array_merge($this->headers, $headers);
+        $response = $this->client->get($path, ['headers' => $merged_headers, 'query' => $parameters]);
 
-        if ($status_code !== Response::HTTP_OK) {
-            $this->logger->info(sprintf('Zumokit API client | %s', $json_data));
-            return $status_code;
-        }
-
-        $data = json_decode($json_data, true);
-        return $data;
+        return $this->preprocessResponse($response);
     }
 
-    public function integrationHealthcheck() {
-        try {
-            $headers = array_merge($this->headers, ['Accept' => 'application/health+json']);
-            $response = $this->client->get(self::PATH__HEALTHCHECK, ['headers' => $headers, 'query' => []]);
-        } catch (ClientException $e) {
-            $this->logger->info(sprintf('Zumokit API client request failed | %s | %s', Psr7\str($e->getRequest()), Psr7\str($e->getResponse())));
-            return Response::HTTP_INTERNAL_SERVER_ERROR;
-        }
+    protected function post(string $path, array $headers, array $data = []): Response
+    {
+        $merged_headers = array_merge($this->headers, $headers);
+        $response = $this->client->post($path, ['headers' => $merged_headers, RequestOptions::JSON => $data]);
 
-        return $this->processResponseData($response);
+        return $this->preprocessResponse($response);
     }
 
     /**
-     * @param UserInterface $user
+     * @param Response $response
+     * @return mixed
      */
-    public function getToken(UserInterface $user) {
-        try {
-            $headers = array_merge($this->headers, ['account-id' => (string)$user->getId()]);
-            $response = $this->client->post(self::PATH__GET_TOKEN, ['headers' => $headers, 'query' => []]);
-        } catch (ClientException $e) {
-            $this->logger->info(sprintf('Zumokit API client request failed | %s | %s', Psr7\str($e->getRequest()), Psr7\str($e->getResponse())));
-            return Response::HTTP_INTERNAL_SERVER_ERROR;
+    protected function preprocessResponse(Response $response): mixed
+    {
+        $content_types = $response->getHeader('content-type');
+
+        // Check if the content type is acceptable.
+        if (empty(array_intersect($content_types, ['application/json', 'application/healthcheck+json']))) {
+            $body = $response->getBody();
+            $this->throwException($response);
         }
 
+        return json_decode($response);
+    }
+
+    protected function throwException(Response $response)
+    {
+        $message = sprintf('%s | Request failed with code %s. %s.', self::LOG_TAG, $response->getStatusCode(), $response->getBody());
+        $this->logger->critical($message);
+
+        throw new Exception($message);
+    }
+
+    /**
+     * Integration health check
+     *
+     * @return string JSON data
+     */
+    public function integrationHealthcheck(): string
+    {
+        $response = $this->get(self::PATH__HEALTHCHECK, ['Accept' => 'application/health+json']);
+
+        return $response->getBody();
+    }
+
+    /**
+     * Check if user account exists.
+     *
+     * @param UserInterface $user
+     * @return bool
+     */
+    public function checkIfUserAccountExists(UserInterface $user): bool
+    {
+        $response = $this->get(self::PATH__CHECK_ACCOUNT, ['account-id' => (string)$user->getId()]);
+
         $status_code = $response->getStatusCode();
-        if ($status_code !== Response::HTTP_OK) {
-            $this->logger->info(sprintf('Zumokit API client | %s', $json_data));
-            return $status_code;
+        if ($status_code === SymResponse::HTTP_OK) {
+            return true;
+        } else if ($status_code === SymResponse::HTTP_FOUND) {
+            return true;
+        } else if ($status_code === SymResponse::HTTP_NOT_FOUND) {
+            return false;
+        }
+
+        $this->throwException($response);
+    }
+
+    /**
+     * Get tokens
+     *
+     * @param UserInterface $user
+     * @return string JSON data
+     */
+    public function getTokens(UserInterface $user): string
+    {
+        //$response = $this->post(self::PATH__GET_TOKEN, ['account-id' => (string)$user->getId()]);
+        $response = $this->post(self::PATH__GET_TOKEN, ['api-key' => 'ffa48c3d8f19a2205b9f14a3b4c71a116594a56ac0d283a27facaf4fcb301930', 'account-id' => '2e7644c5-2971-493c-9c13-173ccead66f4']);
+        $status_code = $response->getStatusCode();
+        if ($status_code !== SymResponse::HTTP_OK) {
+            $this->throwException($response);
         }
 
         return $response->getBody();

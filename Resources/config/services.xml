@@ -102,7 +102,6 @@
     <!-- Controllers -->
     <service id="zumokit.auth.controller" class="Zumo\ZumokitBundle\Controller\AuthController" public="true">
       <argument type="service" id="zumokit.app"/>
-      <argument type="service" id="zumokit.sapi_client"/>
       <argument type="service" id="zumokit.api.client"/>
       <argument type="service" id="zumokit.jwt_encoder"/>
       <argument type="service" id="zumokit.request_validator"/>
@@ -114,7 +113,6 @@
     <service id="zumokit.healthcheck.controller" class="Zumo\ZumokitBundle\Controller\HealthCheckController" public="true">
       <argument type="service" id="zumokit.api.client"/>
       <argument type="service" id="zumokit.app"/>
-      <argument type="service" id="zumokit.sapi_client"/>
       <argument type="service" id="monolog.logger"/>
       <tag name="monolog.logger" channel="bundle.api"/>
     </service>

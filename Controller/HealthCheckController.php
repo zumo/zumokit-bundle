@@ -15,7 +15,6 @@ namespace Zumo\ZumokitBundle\Controller;
 use Zumo\ZumokitBundle\Service\Client\ZumokitApiClient;
 
 use Zumo\ZumokitBundle\Model\ZumoApp;
-use Zumo\ZumokitBundle\Service\Client\SapiClient;
 use Zumo\ZumokitBundle\Service\Request\RequestFactory;
 use Zumo\ZumokitBundle\Service\Request\SAPI\AccountCheckRequest;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -43,11 +42,6 @@ class HealthCheckController extends AbstractController
     protected $app;
 
     /**
-     * @var SapiClient
-     */
-    private $sapi;
-
-    /**
      * @var LoggerInterface
      */
     protected $logger;
@@ -55,15 +49,14 @@ class HealthCheckController extends AbstractController
     /**
      * HealthController constructor.
      *
+     * @param ZumokitApiClient $zumokitApiClient
      * @param ZumoApp $app
-     * @param SapiClient $sapi
      * @param LoggerInterface $logger
      */
-    public function __construct(ZumokitApiClient $zumokitApiClient, ZumoApp $app, SapiClient $sapi, LoggerInterface $logger)
+    public function __construct(ZumokitApiClient $zumokitApiClient, ZumoApp $app, LoggerInterface $logger)
     {
         $this->zumokitApiClient = $zumokitApiClient;
         $this->app    = $app;
-        $this->sapi   = $sapi;
         $this->logger = $logger;
     }
 
@@ -75,21 +68,9 @@ class HealthCheckController extends AbstractController
      */
     public function integrationHealthCheck(Request $request): JsonResponse
     {
-        $data = $this->zumokitApiClient->integrationHealthcheck();
+        $response = $this->zumokitApiClient->integrationHealthcheck();
 
-        try {
-            $factory    = new RequestFactory($this->app);
-            $request = $factory->create(AccountCheckRequest::class);
-            $response = $this->sapi->sendRequest($request);
-            if ($response === null) {
-                return new JsonResponse(['status' => 'Error', 'message' => 'Integration health check failed.'], 400);
-            }
-        } catch (\Exception $exception) {
-            $this->logger->critical(sprintf("Unable to process request, error: %s", $exception->getMessage()));
-            return new JsonResponse(['status' => 'Error', 'message' => 'Could not perform health check.'], 400);
-        }
-
-        return new JsonResponse(['status' => 'OK', 'message' => "Integration health check passed."], 200);
+        return new JsonResponse($response->getBody(), $response->getStatusCode());
     }
 
     /**

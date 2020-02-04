@@ -15,7 +15,6 @@ namespace Zumo\ZumokitBundle\Controller;
 use Exception;
 use Zumo\ZumokitBundle\Model\ZumoApp;
 use Zumo\ZumokitBundle\Service\Client\ZumokitApiClient;
-use Zumo\ZumokitBundle\Service\Client\SapiClient;
 use Zumo\ZumokitBundle\Security\Token\JWTEncoder;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Zumo\ZumokitBundle\Service\Request\Validator\RequestValidator;
@@ -84,7 +83,6 @@ class AuthController extends AbstractController
      */
     public function __construct(
         ZumoApp $app,
-        SapiClient $sapi,
         ZumokitApiClient $zumokitApiClient,
         JWTEncoder $encoder,
         RequestValidator $validator,
@@ -92,7 +90,6 @@ class AuthController extends AbstractController
         UserRepository $repository
     ) {
         $this->app = $app;
-        $this->sapi = $sapi;
         $this->zumokitApiClient = $zumokitApiClient;
         $this->tokenEncoder = $encoder;
         $this->validator = $validator;
@@ -127,7 +124,7 @@ class AuthController extends AbstractController
             throw new Exception('User not found.');
         }
 
-        $result = $this->zumokitApiClient->getToken($user);
+        $result = $this->zumokitApiClient->getTokens($user);
         return new JsonResponse($result, 200, [], true);
     }
 
