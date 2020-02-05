@@ -15,11 +15,8 @@ namespace Zumo\ZumokitBundle\Service\EventHandler;
 use Zumo\ZumokitBundle\Model\UserInterface;
 use Zumo\ZumokitBundle\Model\ZumoApp;
 use Zumo\ZumokitBundle\Security\Token\JWTEncoder;
-use Zumo\ZumokitBundle\Service\Client\SapiClient;
-use Zumo\ZumokitBundle\Service\Request\RequestFactory;
-use Zumo\ZumokitBundle\Service\Request\SAPI\AccountCheckRequest;
+use Zumo\ZumokitBundle\Service\Client\ZumokitApiClient;
 use Lexik\Bundle\JWTAuthenticationBundle\Event\JWTCreatedEvent;
-use Psr\Http\Message\ResponseInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\Event;
 use Exception;
@@ -40,36 +37,36 @@ use Exception;
 class LoginSuccessHandler
 {
     /**
-     * @var \Zumo\ZumokitBundle\Service\Client\SapiClient
+     * @var ZumokitApiClient
      */
-    protected $client;
+    protected $zumokitApiClient;
 
     /**
-     * @var \Zumo\ZumokitBundle\Model\ZumoApp
+     * @var ZumoApp
      */
     protected $app;
 
     /**
-     * @var \Zumo\ZumokitBundle\Security\Token\JWTEncoder
+     * @var JWTEncoder
      */
     protected $encoder;
 
     /**
-     * @var \Psr\Log\LoggerInterface
+     * @var LoggerInterface
      */
     protected $logger;
 
     /**
      * LoginSuccessHandler constructor.
      *
-     * @param SapiClient                                         $client
-     * @param \Zumo\ZumokitBundle\Model\ZumoApp             $app
-     * @param \Zumo\ZumokitBundle\Security\Token\JWTEncoder $encoder
-     * @param \Psr\Log\LoggerInterface                           $logger
+     * @param ZumokitApiClient $client
+     * @param ZumoApp $app
+     * @param JWTEncoder $encoder
+     * @param LoggerInterface $logger
      */
-    public function __construct(SapiClient $client, ZumoApp $app, JWTEncoder $encoder, LoggerInterface $logger)
+    public function __construct(ZumokitApiClient $zumokitApiClient, ZumoApp $app, JWTEncoder $encoder, LoggerInterface $logger)
     {
-        $this->client = $client;
+        $this->zumokitApiClient = $zumokitApiClient;
         $this->app = $app;
         $this->encoder = $encoder;
         $this->logger = $logger;
@@ -103,33 +100,27 @@ class LoginSuccessHandler
      * Bundle to check if the user specified exists on ZumoKit API, and if not
      * to create one.
      *
-     * @param \Lexik\Bundle\JWTAuthenticationBundle\Event\JWTCreatedEvent $event
-     * @return \Psr\Http\Message\ResponseInterface|null
+     * @param JWTCreatedEvent $event
+     * @return bool
      */
-    protected function handleAuthenticationSuccessEvent($event): ?ResponseInterface
+    protected function handleAuthenticationSuccessEvent($event): bool
     {
-        if (!($event->getUser() instanceof UserInterface)) {
-            $this->logger->critical('Expected event\'s user to be an instance of UserInterface.');
-            throw new Exception('Expected event\'s user to be an instance of UserInterface.');
+        $user = $event->getUser();
+        if (!$user instanceof UserInterface) {
+            $message = "Expected event's user to be an instance of UserInterface.";
+            $this->logger->critical($message);
+            throw new Exception($message);
         }
 
         try {
-            $factory = new RequestFactory($this->app, (string) $event->getUser()->getId());
-            $request = $factory->create(AccountCheckRequest::class);
-            return $this->client->sendRequest($request);
-        } catch (\Exception $exception) {
-            $this->logger->critical(sprintf("Check: Response code != 200, message: %s", $exception->getMessage()));
-        }
-
-        try {
-            return $this->client->pushAccount((string) $event->getUser()->getId());
-        } catch (\Exception $exception) {
-            if ($exception->getCode() === 404) {
-                $this->logger->critical(sprintf("Push: Response code 404, message: %s", $exception->getMessage()));
+            if ($this->zumokitApiClient->checkIfUserAccountExists($user) === false) {
+                $this->zumokitApiClient->createUserAccount($user);
             }
-            $this->logger->critical(sprintf("Failed push: %s", $exception->getMessage()));
+        } catch(Exception $exception) {
+            $this->logger->critical(sprintf("Zumokit bundle: failed to check or create user account. %s", $exception->getMessage()));
+            return false;
         }
 
-        return null;
+        return true;
     }
 }

@@ -83,7 +83,7 @@
     <service id="zumokit.client_credentials" class="Zumo\ZumokitBundle\Model\ClientCredentials" public="false">
     </service>
 
-    <!--Event handlers -->
+    <!-- Event handlers -->
     <service id="zumokit.login_subscriber" class="Zumo\ZumokitBundle\EventSubscriber\LoginSubscriber">
       <argument type="service" id="zumokit.login_success_handler"/>
       <argument type="service" id="monolog.logger"/>
@@ -92,7 +92,7 @@
     </service>
 
     <service id="zumokit.login_success_handler" class="Zumo\ZumokitBundle\Service\EventHandler\LoginSuccessHandler">
-      <argument type="service" id="zumokit.sapi_client"/>
+      <argument type="service" id="zumokit.api.client"/>
       <argument type="service" id="zumokit.app"/>
       <argument type="service" id="zumokit.jwt_encoder"/>
       <argument type="service" id="monolog.logger"/>
@@ -106,7 +106,6 @@
       <argument type="service" id="zumokit.jwt_encoder"/>
       <argument type="service" id="zumokit.request_validator"/>
       <argument type="service" id="monolog.logger"/>
-      <argument type="service" id="App\Repository\UserRepository"/>
       <tag name="monolog.logger" channel="bundle.api"/>
     </service>
 
