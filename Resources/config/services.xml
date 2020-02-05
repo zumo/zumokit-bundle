@@ -28,14 +28,6 @@
       <argument type="service" id="zumokit.app"/>
     </service>
 
-    <service id="zumokit.sapi_client" class="Zumo\ZumokitBundle\Service\Client\SapiClient" public="true">
-      <argument>%zumokit.api_url%</argument>
-      <argument type="service" id="zumokit.client_credentials"/>
-      <argument type="service" id="zumokit.app_credentials"/>
-      <argument type="service" id="monolog.logger"/>
-      <tag name="monolog.logger" channel="bundle.sapi"/>
-    </service>
-
     <!-- REQUEST: Validator -->
     <service id="zumokit.request_validator" class="Zumo\ZumokitBundle\Service\Request\Validator\RequestValidator" public="true">
       <argument>%zumokit.security.jwt.public_key%</argument>
