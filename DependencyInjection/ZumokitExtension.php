@@ -70,9 +70,9 @@ class ZumokitExtension extends Extension
         $container->setParameter('zumokit.user_registration.enable', $config['user_registration']['enable']);
         $container->setParameter('zumokit.user_registration.event', $config['user_registration']['event']);
 
+        $definition = $container->getDefinition('zumokit.api.client');
         $definition = $container->getDefinition('zumokit.login_subscriber');
         $definition->addTag('kernel.event_subscriber');
-        $definition = $container->getDefinition('zumokit.sapi_client');
     }
 
     /**

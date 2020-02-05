@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.10]
+
 ### Added
 
 - New Zumokit API client.
@@ -14,13 +16,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Updated documentation.
-- SAPI client has been replaced with new Zumokit API client.
-- AuthController and HealthCheckController now uses new Zumokit API client.
+- SAPI client has been replaced with new Zumokit API client and is now in use for all requests to Zumokit API.
 - Excess code cleanup.
 
 ### Removed
 
 - Removed excess configuration parameters.
+- Removed old SAPI client which was replaced with the new Zumokit API client.
 
 ## [1.0.9] - 2020-01-06
 
