@@ -23,6 +23,7 @@ class ZumokitApiClient
 
     const PATH__HEALTHCHECK = '/api/v1/client-api/healthcheck';
     const PATH__CHECK_ACCOUNT = '/sapi/accounts/check';
+    const PATH__CREATE_ACCOUNT = '/sapi/accounts/push';
     const PATH__GET_TOKEN = '/sapi/authentication/token';
 
     /**
@@ -140,7 +141,27 @@ class ZumokitApiClient
      */
     public function checkIfUserAccountExists(UserInterface $user): bool
     {
-        $response = $this->get(self::PATH__CHECK_ACCOUNT, ['account-id' => (string)$user->getId()]);
+        $response = $this->post(self::PATH__CHECK_ACCOUNT, ['account-id' => (string)$user->getId()]);
+
+        $status_code = $response->getStatusCode();
+        if ($status_code === SymResponse::HTTP_OK) {
+            return true;
+        } else if ($status_code === SymResponse::HTTP_FOUND) {
+            return true;
+        } else if ($status_code === SymResponse::HTTP_NOT_FOUND) {
+            return false;
+        }
+
+        $this->throwException($response);
+    }
+
+    /**
+     * @param UserInterface $user
+     * @return bool
+     */
+    public function createUserAccount(UserInterface $user): bool
+    {
+        $response = $this->post(self::PATH__CREATE_ACCOUNT, ['account-id' => (string)$user->getId()]);
 
         $status_code = $response->getStatusCode();
         if ($status_code === SymResponse::HTTP_OK) {
