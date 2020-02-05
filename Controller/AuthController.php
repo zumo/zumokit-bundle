@@ -47,11 +47,6 @@ class AuthController extends AbstractController
     private $app;
 
     /**
-     * @var SapiClient
-     */
-    private $sapi;
-
-    /**
      * @var ZumokitApiClient
      */
     private $zumokitApiClient;
@@ -67,15 +62,10 @@ class AuthController extends AbstractController
     private $validator;
 
     /**
-     * @var UserRepository
-     */
-    private $repository;
-
-    /**
      * AuthController constructor.
      *
      * @param ZumoApp                   $app
-     * @param SapiClient                $sapi
+     * @param ZumokitApiClient          $zumokitApiClient
      * @param JWTEncoder                $encoder
      * @param RequestValidator          $validator
      * @param LoggerInterface           $logger
@@ -86,15 +76,13 @@ class AuthController extends AbstractController
         ZumokitApiClient $zumokitApiClient,
         JWTEncoder $encoder,
         RequestValidator $validator,
-        LoggerInterface $logger,
-        UserRepository $repository
+        LoggerInterface $logger
     ) {
         $this->app = $app;
         $this->zumokitApiClient = $zumokitApiClient;
         $this->tokenEncoder = $encoder;
         $this->validator = $validator;
         $this->logger = $logger;
-        $this->repository = $repository;
     }
 
     /**

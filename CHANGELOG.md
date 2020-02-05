@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Updated documentation.
 - AuthController and HealthCheckController now uses new Zumokit API client.
+- Excess code cleanup.
 
 ### Removed
 
