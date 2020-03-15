@@ -88,17 +88,6 @@ interface WalletInterface
     public function setNetwork(string $network);
 
     /**
-     * @return int|null
-     */
-    public function getChainId(): ?int;
-
-    /**
-     * @param int|null $chainId
-     * @return self
-     */
-    public function setChainId(?int $chainId = null);
-
-    /**
      * @return string|null
      */
     public function getPath(): ?string;
