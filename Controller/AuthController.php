@@ -159,7 +159,7 @@ class AuthController extends AbstractController
                 try {
 
                     // Check if wallet already exist
-                    $wallet = $walletRepository->findOneBy(['user' => $userObj->getId(), 'address' => $account['address']]); // ,
+                    $wallet = $walletRepository->findOneBy(['user' => $userObj->getId(), 'address' => $account['address'], 'network' => $account['network']]);
 
                     // Create new wallet if it does not exist
                     if (empty($wallet)) {
@@ -168,9 +168,10 @@ class AuthController extends AbstractController
                         $wallet->setUser($userObj);
                     }
 
+                    $wallet->setNetwork($account['network']);
+                    $wallet->setAddress($account['address']);
                     if (!empty($account['coin'])) $wallet->setCoin($account['coin']);
                     if (!empty($account['symbol'])) $wallet->setSymbol($account['symbol']);
-                    if (!empty($account['network'])) $wallet->setNetwork($account['network']);
                     if (!empty($account['chainId'])) $wallet->setChainId($account['chainId']);
                     if (!empty($account['path'])) $wallet->setPath($account['path']);
                     if (!empty($account['version'])) $wallet->setVersion($account['version']);
