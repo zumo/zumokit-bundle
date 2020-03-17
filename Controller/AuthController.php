@@ -172,7 +172,6 @@ class AuthController extends AbstractController
                     $wallet->setAddress($account['address']);
                     if (!empty($account['coin'])) $wallet->setCoin($account['coin']);
                     if (!empty($account['symbol'])) $wallet->setSymbol($account['symbol']);
-                    if (!empty($account['chainId'])) $wallet->setChainId($account['chainId']);
                     if (!empty($account['path'])) $wallet->setPath($account['path']);
                     if (!empty($account['version'])) $wallet->setVersion($account['version']);
 
